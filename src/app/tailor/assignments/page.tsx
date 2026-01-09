@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaPlus, FaClipboardList } from 'react-icons/fa';
-import { workAssignmentService } from '../../../../lib/workAssignmentService';
-import { stitcherAuth } from '../../../../lib/stitcherAuth';
-import { supabase } from '../../../../lib/supabase';
+import { workAssignmentService } from '@/lib/workAssignmentService';
+import { stitcherAuth } from '@/lib/stitcherAuth';
+import { supabase } from '@/lib/supabase';
 import { toast } from 'react-hot-toast';
 
 export default function WorkAssignmentsPage() {

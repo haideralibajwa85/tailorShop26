@@ -7,7 +7,9 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 
-export default function TailorNewOrderPage() {
+import { Suspense } from 'react';
+
+function OrderForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const customerIdFromQuery = searchParams.get('customerId');
@@ -551,5 +553,13 @@ export default function TailorNewOrderPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function TailorNewOrderPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center">Loading...</div>}>
+            <OrderForm />
+        </Suspense>
     );
 }
