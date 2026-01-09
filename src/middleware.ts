@@ -13,61 +13,61 @@ const ROUTE_ROLE_MAP: Record<string, Array<'superadmin' | 'admin' | 'tailor' | '
 const matchRoute = (pathname: string, prefix: string) => pathname === prefix || pathname.startsWith(`${prefix}/`);
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next({
+  let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   });
-  
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Middleware: Supabase environment variables are missing');
+    return response;
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
-        get(name) {
-          return request.cookies.get(name)?.value
+        getAll() {
+          return request.cookies.getAll();
         },
-        set(name: string, value: string, options: any) {
-          request.cookies.set(name, value)
-          response.cookies.set(name, value, options)
-        },
-        remove(name: string, options: any) {
-          request.cookies.delete(name)
-          response.cookies.delete(name)
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
+          response = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
         },
       },
     },
   );
 
-  const authResult = await supabase.auth.getSession();
-  const { session } = authResult.data;
+  // Use getUser() for better security than getSession()
+  const { data: { user } } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
 
-  console.log('Session from getSession():', session);
-  console.log('Session user ID:', session?.user?.id);
-  console.log('Session user email:', session?.user?.email);
-  
-  if (session) {
-    console.log('User ID:', session.user.id);
-    console.log('User Email:', session.user.email);
-  }
-
-  // Simple check: if no session and not public route, redirect to login
-  if (!session && !PUBLIC_ROUTES.some((route) => matchRoute(pathname, route))) {
-    console.log('No session - redirecting to login');
+  // Simple check: if no user and not public route, redirect to login
+  if (!user && !PUBLIC_ROUTES.some((route) => matchRoute(pathname, route))) {
     const redirectUrl = new URL('/auth/login', request.url);
     redirectUrl.searchParams.set('redirectTo', pathname);
     return NextResponse.redirect(redirectUrl);
   }
 
-  // If session exists and trying to access auth pages, redirect to dashboard
-  if (session && (pathname === '/auth/login' || pathname === '/auth/register')) {
-    console.log('Session exists on auth page - redirecting to dashboard');
-    return NextResponse.redirect(new URL('/superadmin/dashboard', request.url));
+  // If user exists and trying to access auth pages, redirect to dashboard
+  if (user && (pathname === '/auth/login' || pathname === '/auth/register')) {
+    // We don't know the role here from just the auth user without a DB call, 
+    // but we can try to redirect to a generic home or the dashboard based on common naming.
+    // However, to keep it simple, letting it pass or going to a default is safer than a hard loop.
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
-  console.log('Middleware: allowing access');
   return response;
 }
 
