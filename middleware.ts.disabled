@@ -1,0 +1,84 @@
+import { NextResponse, type NextRequest } from 'next/server';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
+
+export async function middleware(request: NextRequest) {
+  // Create a Supabase server client with the Auth token from the request
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value;
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          // The `set` method is not implemented for middleware
+        },
+        remove(name: string, options: CookieOptions) {
+          // The `remove` method is not implemented for middleware
+        },
+      },
+    }
+  );
+
+  // Define protected routes based on user roles
+  const { pathname } = request.nextUrl;
+
+  // Public routes that don't require authentication
+  const publicRoutes = ['/', '/auth/login', '/auth/register', '/auth/forgot-password'];
+
+  // Customer routes
+  const customerRoutes = ['/customer'];
+
+  // Tailor routes
+  const tailorRoutes = ['/tailor'];
+
+  // Admin routes
+  const adminRoutes = ['/admin'];
+
+  // Check if route is protected
+  // Note: We check if the pathname exactly matches or starts with the route for more precise matching
+  const isPublicRoute = publicRoutes.includes(pathname) || publicRoutes.some(route => route !== '/' && pathname.startsWith(route));
+  const isCustomerRoute = customerRoutes.some(route => pathname.startsWith(route));
+  const isTailorRoute = tailorRoutes.some(route => pathname.startsWith(route));
+  const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route));
+
+  if (isPublicRoute) {
+    return NextResponse.next();
+  }
+
+  // Get the session only for non-public routes
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  // If accessing a protected route without being authenticated
+  if (!session) {
+    // Redirect to login page
+    return NextResponse.redirect(new URL('/auth/login', request.url));
+  }
+
+  // If user is authenticated, check if they have access to the route based on their role
+  if (session) {
+    // In a real implementation, you would fetch the user's role from the database
+    // and check if they have access to the requested route
+    // For now, we'll just allow the request to continue
+  }
+
+  // Continue with the request
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
+};
+

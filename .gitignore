@@ -1,0 +1,16 @@
+node_modules
+.next/
+.env.local
+.env
+dist/
+build/
+*.log
+*.lock
+.DS_Store
+Thumbs.db
+package-lock.json
+yarn.lock
+npm-debug.log*
+coverage/
+.nyc_output/
+.git

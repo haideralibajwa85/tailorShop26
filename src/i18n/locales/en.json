@@ -1,0 +1,277 @@
+{
+  "common": {
+    "appName": "Tailor Shop Management",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "fullName": "Full Name",
+    "phoneNumber": "Phone Number",
+    "gender": "Gender",
+    "address": "Address",
+    "language": "Language",
+    "male": "Male",
+    "female": "Female",
+    "loginWithEmail": "Login with Email",
+    "loginWithPhone": "Login with Phone",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create Account",
+    "signIn": "Sign In",
+    "welcomeBack": "Welcome Back!",
+    "welcomeSubtitle": "Sign in to access your dashboard and manage your tailoring business with ease.",
+    "enterCredentials": "Enter your credentials to continue.",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "Your password",
+    "rememberMe": "Remember me",
+    "createAccountTitle": "Create Your Account",
+    "createAccountSubtitle": "Join our community to streamline your tailoring business and connect with customers.",
+    "signUpTitle": "Sign Up",
+    "signUpSubtitle": "Fill in the details below to get started.",
+    "fullNamePlaceholder": "Your full name",
+    "phonePlaceholder": "+92-300-1234567",
+    "passwordCreatePlaceholder": "Create a password",
+    "passwordConfirmPlaceholder": "Confirm your password",
+    "addressPlaceholder": "Your address",
+    "agreeTo": "I agree to the",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "signingIn": "Signing in...",
+    "creatingAccount": "Creating Account...",
+    "resetPassword": "Reset Password",
+    "resetPasswordTitle": "Reset Your Password",
+    "resetPasswordSubtitle": "Enter your email to receive reset instructions",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login",
+    "resetLinkSent": "Password reset link sent! Check your email.",
+    "newPassword": "New Password",
+    "setNewPassword": "Set New Password",
+    "passwordResetSuccess": "Password reset successful! Redirecting to login...",
+    "invalidResetLink": "Invalid or expired reset link"
+  },
+  "validation": {
+    "passwordsDoNotMatch": "Passwords do not match",
+    "invalidCredentials": "Invalid email or password. Please check your credentials.",
+    "emailNotConfirmed": "Please confirm your email address before logging in.",
+    "loginSuccess": "Welcome back! Logging in as {{role}}...",
+    "registrationSuccess": "Registration successful! Redirecting to login...",
+    "registrationFailed": "Registration failed",
+    "profileSetupFailed": "Account created but profile setup failed. Please contact support."
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "orders": "Orders",
+    "newOrder": "New Order",
+    "categories": "Categories",
+    "staff": "Staff",
+    "reports": "Reports",
+    "settings": "Settings",
+    "customerDashboard": "Customer Dashboard",
+    "tailorDashboard": "Tailor Dashboard",
+    "adminDashboard": "Admin Dashboard",
+    "superadminDashboard": "Superadmin Dashboard",
+    "stitcherPerformance": "Stitcher Performance"
+  },
+  "dashboard": {
+    "admin": {
+      "title": "Admin Dashboard",
+      "subtitle": "Manage your tailor shop operations, staff, and orders.",
+      "cards": {
+        "orders": {
+          "title": "Orders Management",
+          "desc": "View and manage all customer orders"
+        },
+        "staff": {
+          "title": "Staff & Users",
+          "desc": "Manage tailors and customer accounts"
+        },
+        "categories": {
+          "title": "Categories",
+          "desc": "Manage clothing categories and types"
+        },
+        "saudiWear": {
+          "title": "Saudi Wear",
+          "desc": "Specialized Saudi clothing management"
+        },
+        "reports": {
+          "title": "Reports",
+          "desc": "View daily and monthly business reports"
+        }
+      },
+      "systemOverview": "System Overview",
+      "systemOverviewDesc": "This is the central hub for shop administration. Use the cards above to navigate to specific management sections."
+    },
+    "tailor": {
+      "title": "Tailor Dashboard",
+      "subtitle": "View assigned orders and manage stitching progress.",
+      "cards": {
+        "assignedOrders": {
+          "title": "Assigned Orders",
+          "desc": "View and update status of orders assigned to you"
+        }
+      },
+      "recentActivity": "Recent Activity",
+      "noActivity": "No recent activity."
+    },
+    "customer": {
+      "title": "Customer Dashboard",
+      "subtitle": "Track your orders and manage your profile.",
+      "cards": {
+        "myOrders": {
+          "title": "My Orders",
+          "desc": "View your order history and track status"
+        },
+        "newOrder": {
+          "title": "New Order",
+          "desc": "Place a new custom order"
+        },
+        "profile": {
+          "title": "My Profile",
+          "desc": "Update your measurements and contact info"
+        }
+      },
+      "recentOrders": "Recent Orders",
+      "noOrders": "No orders found."
+    }
+  },
+  "order": {
+    "order": "Order",
+    "orderId": "Order ID",
+    "category": "Category",
+    "clothingType": "Clothing Type",
+    "quantity": "Quantity",
+    "fabricType": "Fabric Type",
+    "color": "Color",
+    "stitchingStyle": "Stitching Style",
+    "designReference": "Design Reference",
+    "customNotes": "Custom Notes",
+    "orderDate": "Order Date",
+    "expectedCompletionDate": "Expected Completion Date",
+    "actualCompletionDate": "Actual Completion Date",
+    "pickupDate": "Pickup Date",
+    "status": "Status",
+    "pending": "Pending",
+    "inStitching": "In Stitching",
+    "completed": "Completed",
+    "late": "Late",
+    "completedNotPicked": "Completed but Not Picked",
+    "delivered": "Delivered",
+    "createNewOrder": "Create New Order",
+    "measurements": "Measurements",
+    "chest": "Chest",
+    "waist": "Waist",
+    "hip": "Hip",
+    "shoulder": "Shoulder",
+    "sleeveLength": "Sleeve Length",
+    "shirtLength": "Shirt Length",
+    "trouserLength": "Trouser Length",
+    "neck": "Neck"
+  },
+  "categories": {
+    "shalwarKameez": "Shalwar Kameez",
+    "saudiTraditionalWear": "Saudi Traditional Wear",
+    "simpleShalwarKameez": "Simple Shalwar Kameez",
+    "designerShalwarKameez": "Designer Shalwar Kameez",
+    "weddingShalwarKameez": "Wedding Shalwar Kameez",
+    "casualOffice": "Casual / Office Wear",
+    "thobe": "Thobe (Dishdasha)",
+    "ghutraIgal": "Ghutra & Igal",
+    "bisht": "Bisht",
+    "abaya": "Abaya",
+    "hijab": "Hijab",
+    "kaftan": "Kaftans & Jallabiyas"
+  },
+  "status": {
+    "pending": "Pending",
+    "inStitching": "In Stitching",
+    "completed": "Completed",
+    "late": "Late",
+    "completedNotPicked": "Completed but Not Picked",
+    "delivered": "Delivered"
+  },
+  "landing": {
+    "hero": {
+      "badge": "Trusted by 500+ Tailor Shops",
+      "titlePrefix": "Premium",
+      "titleHighlight": "Tailor",
+      "titleSuffix": "Shop Management System",
+      "subtitle": "Streamline your tailor business with our comprehensive management solution. From order tracking to customer management, everything in one place.",
+      "getStarted": "Get Started",
+      "signIn": "Sign In",
+      "stats": {
+        "shops": "Active Shops",
+        "orders": "Orders Managed",
+        "uptime": "Uptime"
+      }
+    },
+    "features": {
+      "title": "Powerful Features",
+      "description": "Everything you need to manage your tailor business efficiently",
+      "orderManagement": {
+        "title": "Order Management",
+        "desc": "Track orders from creation to completion with detailed status updates and notifications."
+      },
+      "customerProfiles": {
+        "title": "Customer Profiles",
+        "desc": "Maintain detailed customer profiles with measurement history and preferences."
+      },
+      "analytics": {
+        "title": "Business Analytics",
+        "desc": "Gain insights with comprehensive reports and analytics for better decision making."
+      },
+      "learnMore": "Learn more"
+    },
+    "roles": {
+      "title": "Designed for Everyone",
+      "subtitle": "Different interfaces for different roles to maximize efficiency",
+      "customer": {
+        "title": "Customer",
+        "desc": "Place orders, track progress, and manage your measurements",
+        "button": "Customer Login"
+      },
+      "tailor": {
+        "title": "Tailor",
+        "desc": "Manage assigned orders and update progress status",
+        "button": "Tailor Login"
+      },
+      "admin": {
+        "title": "Admin",
+        "desc": "Oversee the entire system and manage staff and reports",
+        "button": "Admin Login"
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Tailor Business?",
+      "subtitle": "Join hundreds of tailors who have streamlined their operations with our system",
+      "startTrial": "Start Free Trial",
+      "viewDemo": "View Demo"
+    }
+  }
+}

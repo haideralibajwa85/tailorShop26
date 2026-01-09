@@ -1,0 +1,277 @@
+{
+  "common": {
+    "appName": "دراز کی دکان",
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں",
+    "edit": "ترمیم",
+    "delete": "حذف کریں",
+    "view": "دیکھیں",
+    "back": "واپس",
+    "next": "اگلا",
+    "previous": "پچھلا",
+    "search": "تلاش کریں",
+    "filter": "فلٹر",
+    "reset": "ری سیٹ",
+    "yes": "ہاں",
+    "no": "نہیں",
+    "ok": "ٹھیک ہے",
+    "confirm": "تصدیق کریں",
+    "loading": "لوڈ ہو رہا ہے...",
+    "error": "خرابی",
+    "success": "کامیابی",
+    "warning": "انتباہ",
+    "info": "معلومات"
+  },
+  "auth": {
+    "login": "لاگ ان",
+    "register": "رجسٹر",
+    "logout": "لاگ آوٹ",
+    "email": "ای میل",
+    "password": "پاس ورڈ",
+    "confirmPassword": "پاس ورڈ کی تصدیق کریں",
+    "forgotPassword": "پاس ورڈ بھول گئے؟",
+    "fullName": "مکمل نام",
+    "phoneNumber": "فون نمبر",
+    "gender": "صنف",
+    "address": "پتہ",
+    "language": "زبان",
+    "male": "مرد",
+    "female": "عورت",
+    "loginWithEmail": "ای میل کے ساتھ لاگ ان کریں",
+    "loginWithPhone": "فون کے ساتھ لاگ ان کریں",
+    "alreadyHaveAccount": "پہلے سے اکاؤنٹ ہے؟",
+    "dontHaveAccount": "اکاؤنٹ نہیں ہے؟",
+    "createAccount": "اکاؤنٹ بنائیں",
+    "signIn": "سائن ان",
+    "welcomeBack": "خوش آمدید!",
+    "welcomeSubtitle": "اپنے ڈیش بورڈ تک رسائی حاصل کرنے اور اپنے درزی کے کاروبار کو آسانی سے منظم کرنے کے لیے سائن ان کریں۔",
+    "enterCredentials": "جاری رکھنے کے لیے اپنی اسناد درج کریں۔",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "آپ کا پاس ورڈ",
+    "rememberMe": "مجھے یاد رکھیں",
+    "createAccountTitle": "اپنا اکاؤنٹ بنائیں",
+    "createAccountSubtitle": "اپنے درزی کے کاروبار کو ہموار کرنے اور صارفین سے رابطہ قائم کرنے کے لیے ہماری کمیونٹی میں شامل ہوں۔",
+    "signUpTitle": "سائن اپ",
+    "signUpSubtitle": "شروع کرنے کے لیے نیچے دی گئی تفصیلات پر کریں۔",
+    "fullNamePlaceholder": "آپ کا پورا نام",
+    "phonePlaceholder": "+92-300-1234567",
+    "passwordCreatePlaceholder": "پاس ورڈ بنائیں",
+    "passwordConfirmPlaceholder": "پاس ورڈ کی تصدیق کریں",
+    "addressPlaceholder": "آپ کا پتہ",
+    "agreeTo": "میں اتفاق کرتا ہوں",
+    "termsOfService": "سروس کی شرائط",
+    "privacyPolicy": "پرائیویسی پالیسی",
+    "signingIn": "سائن ان ہو رہا ہے...",
+    "creatingAccount": "اکاؤنٹ بنایا جا رہا ہے...",
+    "resetPassword": "پاس ورڈ ری سیٹ کریں",
+    "resetPasswordTitle": "اپنا پاس ورڈ ری سیٹ کریں",
+    "resetPasswordSubtitle": "ری سیٹ کی ہدایات حاصل کرنے کے لیے اپنا ای میل درج کریں",
+    "sendResetLink": "ری سیٹ لنک بھیجیں",
+    "backToLogin": "لاگ ان پر واپس جائیں",
+    "resetLinkSent": "پاس ورڈ ری سیٹ لنک بھیج دیا گیا! اپنا ای میل چیک کریں۔",
+    "newPassword": "نیا پاس ورڈ",
+    "setNewPassword": "نیا پاس ورڈ سیٹ کریں",
+    "passwordResetSuccess": "پاس ورڈ کامیابی سے ری سیٹ ہو گیا! لاگ ان کی طرف لے جایا جا رہا ہے...",
+    "invalidResetLink": "غلط یا میعاد ختم ری سیٹ لنک"
+  },
+  "validation": {
+    "passwordsDoNotMatch": "پاس ورڈ مماثل نہیں ہیں",
+    "invalidCredentials": "غلط ای میل یا پاس ورڈ۔ براہ کرم اپنی اسناد چیک کریں۔",
+    "emailNotConfirmed": "براہ کرم لاگ ان کرنے سے پہلے اپنے ای میل ایڈریس کی تصدیق کریں۔",
+    "loginSuccess": "خوش آمدید! بطوری {{role}} لاگ ان ہو رہا ہے...",
+    "registrationSuccess": "رائسٹریشن کامیاب! لاگ ان کی طرف لے جایا جا رہا ہے...",
+    "registrationFailed": "رجسٹریشن ناکام",
+    "profileSetupFailed": "اکاؤنٹ بن گیا لیکن پروفائل سیٹ اپ ناکام۔ براہ کرم سپورٹ سے رابطہ کریں۔"
+  },
+  "navigation": {
+    "home": "ہوم",
+    "dashboard": "ڈیش بورڈ",
+    "profile": "پروفائل",
+    "orders": "آرڈرز",
+    "newOrder": "نیا آرڈر",
+    "categories": "زمرے",
+    "staff": "عملہ",
+    "reports": "رپورٹس",
+    "settings": "ترتیبات",
+    "customerDashboard": "کسٹمر ڈیش بورڈ",
+    "tailorDashboard": "دراز ڈیش بورڈ",
+    "adminDashboard": "ایڈمن ڈیش بورڈ",
+    "superadminDashboard": "سپر ایڈمن ڈیش بورڈ",
+    "stitcherPerformance": "کاریگر کی کارکردگی"
+  },
+  "dashboard": {
+    "admin": {
+      "title": "ایڈمن ڈیش بورڈ",
+      "subtitle": "اپنے درزی کی دکان کے آپریشنز، عملے اور آرڈرز کا نظم کریں۔",
+      "cards": {
+        "orders": {
+          "title": "آرڈر مینجمنٹ",
+          "desc": "تمام کسٹمر آرڈرز دیکھیں اور ان کا نظم کریں"
+        },
+        "staff": {
+          "title": "عملہ اور صارفین",
+          "desc": "درزیوں اور کسٹمر اکاؤنٹس کا نظم کریں"
+        },
+        "categories": {
+          "title": "زمرے",
+          "desc": "لباس کے زمرے اور اقسام کا نظم کریں"
+        },
+        "saudiWear": {
+          "title": "سعودی لباس",
+          "desc": "خصوصی سعودی لباس کا انتظام"
+        },
+        "reports": {
+          "title": "رپورٹس",
+          "desc": "روزانہ اور ماہانہ کاروباری رپورٹس دیکھیں"
+        }
+      },
+      "systemOverview": "سسٹم کا جائزہ",
+      "systemOverviewDesc": "یہ دکان کے انتظام کا مرکزی مرکز ہے۔ مخصوص انتظامی حصوں پر جانے کے لیے اوپر والے کارڈز کا استعمال کریں۔"
+    },
+    "tailor": {
+      "title": "درزی ڈیش بورڈ",
+      "subtitle": "تفویض کردہ آرڈرز دیکھیں اور سلائی کی پیشرفت کا نظم کریں۔",
+      "cards": {
+        "assignedOrders": {
+          "title": "تفویض کردہ آرڈرز",
+          "desc": "آپ کو تفویض کردہ آرڈرز کی حیثیت دیکھیں اور اپ ڈیٹ کریں"
+        }
+      },
+      "recentActivity": "حالیہ سرگرمی",
+      "noActivity": "کوئی حالیہ سرگرمی نہیں۔"
+    },
+    "customer": {
+      "title": "کسٹمر ڈیش بورڈ",
+      "subtitle": "اپنے آرڈرز کو ٹریک کریں اور اپنے پروفائل کا نظم کریں۔",
+      "cards": {
+        "myOrders": {
+          "title": "میرے آرڈرز",
+          "desc": "اپنی آرڈر کی تاریخ دیکھیں اور اسٹیٹس ٹریک کریں"
+        },
+        "newOrder": {
+          "title": "نیا آرڈر",
+          "desc": "نیا کسٹم آرڈر دیں"
+        },
+        "profile": {
+          "title": "میرا پروفائل",
+          "desc": "اپنی پیمائش اور رابطہ کی معلومات کو اپ ڈیٹ کریں"
+        }
+      },
+      "recentOrders": "حالیہ آرڈرز",
+      "noOrders": "کوئی آرڈر نہیں ملا۔"
+    }
+  },
+  "order": {
+    "order": "آرڈر",
+    "orderId": "آرڈر آئی ڈی",
+    "category": "زمرہ",
+    "clothingType": "کپڑے کی قسم",
+    "quantity": "مقدار",
+    "fabricType": "کپڑے کی قسم",
+    "color": "رنگ",
+    "stitchingStyle": "سی کنے کا انداز",
+    "designReference": "ڈیزائن کا حوالہ",
+    "customNotes": "مخصوص نوٹس",
+    "orderDate": "آرڈر کی تاریخ",
+    "expectedCompletionDate": "مکمل ہونے کی متوقع تاریخ",
+    "actualCompletionDate": "اصل مکمل ہونے کی تاریخ",
+    "pickupDate": "لینے کی تاریخ",
+    "status": "حالت",
+    "pending": "زیر التوا",
+    "inStitching": "سی رہا ہے",
+    "completed": "مکمل",
+    "late": "دیر سے",
+    "completedNotPicked": "مکمل لیکن نہیں لیا گیا",
+    "delivered": "پہنچا دیا گیا",
+    "createNewOrder": "نیا آرڈر بنائیں",
+    "measurements": "پیمائشیں",
+    "chest": "چھاتی",
+    "waist": "کمر",
+    "hip": "کولہے",
+    "shoulder": "کندھا",
+    "sleeveLength": "آستین کی لمبائی",
+    "shirtLength": "قمیص کی لمبائی",
+    "trouserLength": "پتلون کی لمبائی",
+    "neck": "گردن"
+  },
+  "categories": {
+    "shalwarKameez": "شلوار قمیض",
+    "saudiTraditionalWear": "سعودی روایتی لباس",
+    "simpleShalwarKameez": "سادہ شلوار قمیض",
+    "designerShalwarKameez": "ڈیزائنر شلوار قمیض",
+    "weddingShalwarKameez": "شادی کی شلوار قمیض",
+    "casualOffice": "آرام دہ / دفتر کا لباس",
+    "thobe": "ثوب (ڈشداشہ)",
+    "ghutraIgal": "غتر اور ایگل",
+    "bisht": "بشت",
+    "abaya": "عبایہ",
+    "hijab": "حجاب",
+    "kaftan": "کفتان اور جلابیا"
+  },
+  "status": {
+    "pending": "زیر التوا",
+    "inStitching": "سی رہا ہے",
+    "completed": "مکمل",
+    "late": "دیر سے",
+    "completedNotPicked": "مکمل لیکن نہیں لیا گیا",
+    "delivered": "پہنچا دیا گیا"
+  },
+  "landing": {
+    "hero": {
+      "badge": "500+ درزی کی دکانوں پر بھروسہ",
+      "titlePrefix": "مؤثر",
+      "titleHighlight": "درزی",
+      "titleSuffix": "شاپ مینجمنٹ سسٹم",
+      "subtitle": "ہمارے جامع انتظامی حل کے ساتھ اپنے درزی کے کاروبار کو آسان بنائیں۔ آرڈر ٹریکنگ سے لے کر کسٹمر مینجمنٹ تک، سب کچھ ایک جگہ پر۔",
+      "getStarted": "شروع کریں",
+      "signIn": "سائن ان",
+      "stats": {
+        "shops": "فعال دکانیں",
+        "orders": "مینیجڈ آرڈرز",
+        "uptime": "اپ ٹائم"
+      }
+    },
+    "features": {
+      "title": "طاقتور خصوصیات",
+      "description": "ہر وہ چیز جو آپ کو اپنے درزی کے کاروبار کو مؤثر طریقے سے منظم کرنے کی ضرورت ہے",
+      "orderManagement": {
+        "title": "آرڈر مینجمنٹ",
+        "desc": "تفصیلی اسٹیٹس اپ ڈیٹس اور اطلاعات کے ساتھ تخلیق سے لے کر تکمیل تک آرڈرز کو ٹریک کریں۔"
+      },
+      "customerProfiles": {
+        "title": "کسٹمر پروفائلز",
+        "desc": "پیمائش کی تاریخ اور ترجیحات کے ساتھ تفصیلی کسٹمر پروفائلز کو برقرار رکھیں۔"
+      },
+      "analytics": {
+        "title": "کاروباری تجزیات",
+        "desc": "بہتر فیصلے کرنے کے لیے جامع رپورٹوں اور تجزیات کے ساتھ بصیرت حاصل کریں۔"
+      },
+      "learnMore": "مزید جانیں"
+    },
+    "roles": {
+      "title": "سب کے لئے ڈیزائن کیا گیا",
+      "subtitle": "کارکردگی کو زیادہ سے زیادہ کرنے کے لیے مختلف کرداروں کے لیے مختلف انٹرفیس",
+      "customer": {
+        "title": "گاہک",
+        "desc": "آرڈر دیں، پیشرفت کو ٹریک کریں، اور اپنی پیمائش کا نظم کریں",
+        "button": "کسٹمر لاگ ان"
+      },
+      "tailor": {
+        "title": "درزی",
+        "desc": "تفویض کردہ آرڈرز کا نظم کریں اور پیشرفت کی حالت کو اپ ڈیٹ کریں",
+        "button": "درزی لاگ ان"
+      },
+      "admin": {
+        "title": "ایڈمن",
+        "desc": "پورے نظام کی نگرانی کریں اور عملے اور رپورٹس کا انتظام کریں",
+        "button": "ایڈمن لاگ ان"
+      }
+    },
+    "cta": {
+      "title": "اپنے درزی کے کاروبار کو تبدیل کرنے کے لیے تیار ہیں؟",
+      "subtitle": "سینکڑوں درزیوں میں شامل ہوں جنہوں نے ہمارے نظام کے ساتھ اپنے آپریشنز کو آسان بنایا ہے",
+      "startTrial": "مفت ٹرائل شروع کریں",
+      "viewDemo": "ڈیمو دیکھیں"
+    }
+  }
+}

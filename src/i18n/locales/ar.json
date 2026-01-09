@@ -1,0 +1,277 @@
+{
+  "common": {
+    "appName": "محل خياطة",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "view": "عرض",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "reset": "إعادة تعيين",
+    "yes": "نعم",
+    "no": "لا",
+    "ok": "حسناً",
+    "confirm": "تأكيد",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "warning": "تحذير",
+    "info": "معلومات"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "fullName": "الاسم الكامل",
+    "phoneNumber": "رقم الهاتف",
+    "gender": "الجنس",
+    "address": "العنوان",
+    "language": "اللغة",
+    "male": "ذكر",
+    "female": "أنثى",
+    "loginWithEmail": "تسجيل الدخول بالبريد الإلكتروني",
+    "loginWithPhone": "تسجيل الدخول بالهاتف",
+    "alreadyHaveAccount": "هل لديك حساب؟",
+    "dontHaveAccount": "لا تملك حساب؟",
+    "createAccount": "إنشاء حساب",
+    "signIn": "تسجيل الدخول",
+    "welcomeBack": "مرحباً بعودتك!",
+    "welcomeSubtitle": "سجل الدخول للوصول إلى لوحة التحكم وإدارة أعمال الخياطة الخاصة بك بسهولة.",
+    "enterCredentials": "أدخل بيانات الاعتماد الخاصة بك للمتابعة.",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "كلمة المرور الخاصة بك",
+    "rememberMe": "تذكرني",
+    "createAccountTitle": "أنشئ حسابك",
+    "createAccountSubtitle": "انضم إلى مجتمعنا لتبسيط أعمال الخياطة الخاصة بك والتواصل مع العملاء.",
+    "signUpTitle": "تسجيل",
+    "signUpSubtitle": "املأ التفاصيل أدناه للبدء.",
+    "fullNamePlaceholder": "اسمك الكامل",
+    "phonePlaceholder": "+966-500-1234567",
+    "passwordCreatePlaceholder": "أنشئ كلمة مرور",
+    "passwordConfirmPlaceholder": "تأكيد كلمة المرور",
+    "addressPlaceholder": "عنوانك",
+    "agreeTo": "أوافق على",
+    "termsOfService": "شروط الخدمة",
+    "privacyPolicy": "سياسة الخصوصية",
+    "signingIn": "جاري تسجيل الدخول...",
+    "creatingAccount": "جاري إنشاء الحساب...",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+    "resetPasswordSubtitle": "أدخل بريدك الإلكتروني لتلقي تعليمات إعادة التعيين",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "backToLogin": "العودة لتسجيل الدخول",
+    "resetLinkSent": "تم إرسال رابط إعادة تعيين كلمة المرور! تحقق من بريدك الإلكتروني.",
+    "newPassword": "كلمة المرور الجديدة",
+    "setNewPassword": "تعيين كلمة مرور جديدة",
+    "passwordResetSuccess": "تم إعادة تعيين كلمة المرور بنجاح! جاري التوجيه لتسجيل الدخول...",
+    "invalidResetLink": "رابط إعادة التعيين غير صالح أو منتهي الصلاحية"
+  },
+  "validation": {
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "emailNotConfirmed": "يرجى تأكيد عنوان بريدك الإلكتروني قبل تسجيل الدخول.",
+    "loginSuccess": "مرحباً بعودتك! تسجيل الدخول بصفة {{role}}...",
+    "registrationSuccess": "تم التسجيل بنجاح! جاري التوجيه لتسجيل الدخول...",
+    "registrationFailed": "فشل التسجيل",
+    "profileSetupFailed": "تم إنشاء الحساب ولكن فشل إعداد الملف الشخصي. يرجى الاتصال بالدعم."
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي",
+    "orders": "الطلبات",
+    "newOrder": "طلب جديد",
+    "categories": "الفئات",
+    "staff": "الموظفين",
+    "reports": "التقارير",
+    "settings": "الإعدادات",
+    "customerDashboard": "لوحة تحكم العميل",
+    "tailorDashboard": "لوحة تحكم الخياط",
+    "adminDashboard": "لوحة تحكم المشرف",
+    "superadminDashboard": "لوحة تحكم المسؤول العام",
+    "stitcherPerformance": "أداء الخياطين"
+  },
+  "dashboard": {
+    "admin": {
+      "title": "لوحة تحكم المشرف",
+      "subtitle": "إدارة عمليات محل الخياطة والموظفين والطلبات.",
+      "cards": {
+        "orders": {
+          "title": "إدارة الطلبات",
+          "desc": "عرض وإدارة جميع طلبات العملاء"
+        },
+        "staff": {
+          "title": "الموظفين والمستخدمين",
+          "desc": "إدارة الخياطين وحسابات العملاء"
+        },
+        "categories": {
+          "title": "الفئات",
+          "desc": "إدارة فئات الملابس وأنواعها"
+        },
+        "saudiWear": {
+          "title": "الملابس السعودية",
+          "desc": "إدارة الملابس السعودية المتخصصة"
+        },
+        "reports": {
+          "title": "التقارير",
+          "desc": "عرض تقارير الأعمال اليومية والشهرية"
+        }
+      },
+      "systemOverview": "نظرة عامة على النظام",
+      "systemOverviewDesc": "هذا هو المركز الرئيسي لإدارة المتجر. استخدم البطاقات أعلاه للانتقال إلى أقسام الإدارة المحددة."
+    },
+    "tailor": {
+      "title": "لوحة تحكم الخياط",
+      "subtitle": "عرض الطلبات الموكلة وإدارة تقدم الخياطة.",
+      "cards": {
+        "assignedOrders": {
+          "title": "الطلبات الموكلة",
+          "desc": "عرض وتحديث حالة الطلبات الموكلة إليك"
+        }
+      },
+      "recentActivity": "النشاط الأخير",
+      "noActivity": "لا يوجد نشاط حديث."
+    },
+    "customer": {
+      "title": "لوحة تحكم العميل",
+      "subtitle": "تتبع طلباتك وإدارة ملفك الشخصي.",
+      "cards": {
+        "myOrders": {
+          "title": "طلباتي",
+          "desc": "عرض سجل طلباتك وتتبع الحالة"
+        },
+        "newOrder": {
+          "title": "طلب جديد",
+          "desc": "قدم طلب مخصص جديد"
+        },
+        "profile": {
+          "title": "ملفي الشخصي",
+          "desc": "تحديث قياساتك ومعلومات الاتصال"
+        }
+      },
+      "recentOrders": "أحدث الطلبات",
+      "noOrders": "لم يتم العثور على طلبات."
+    }
+  },
+  "order": {
+    "order": "طلب",
+    "orderId": "رقم الطلب",
+    "category": "الفئة",
+    "clothingType": "نوع الملابس",
+    "quantity": "الكمية",
+    "fabricType": "نوع القماش",
+    "color": "اللون",
+    "stitchingStyle": "نمط الخياطة",
+    "designReference": "مرجع التصميم",
+    "customNotes": "ملاحظات مخصصة",
+    "orderDate": "تاريخ الطلب",
+    "expectedCompletionDate": "تاريخ الانتهاء المتوقع",
+    "actualCompletionDate": "تاريخ الانتهاء الفعلي",
+    "pickupDate": "تاريخ الاستلام",
+    "status": "الحالة",
+    "pending": "معلق",
+    "inStitching": "جاري الخياطة",
+    "completed": "مكتمل",
+    "late": "متأخر",
+    "completedNotPicked": "مكتمل ولكن لم يُستلم",
+    "delivered": "تم التسليم",
+    "createNewOrder": "إنشاء طلب جديد",
+    "measurements": "القياسات",
+    "chest": "الصدر",
+    "waist": "الخصر",
+    "hip": "الورك",
+    "shoulder": "الكتف",
+    "sleeveLength": "طول الكم",
+    "shirtLength": "طول القميص",
+    "trouserLength": "طول البنطال",
+    "neck": "الرقبة"
+  },
+  "categories": {
+    "shalwarKameez": "shalwar kameez",
+    "saudiTraditionalWear": "الملابس التقليدية السعودية",
+    "simpleShalwarKameez": "shalwar kameez بسيط",
+    "designerShalwarKameez": "shalwar kameez مصمم",
+    "weddingShalwarKameez": "shalwar kameez زفاف",
+    "casualOffice": "ملابس غير رسمية / مكتب",
+    "thobe": "ثوب (ديشداشا)",
+    "ghutraIgal": "غترة و إغال",
+    "bisht": "بشت",
+    "abaya": "عباية",
+    "hijab": "حجاب",
+    "kaftan": "القفطان والجلابية"
+  },
+  "status": {
+    "pending": "معلق",
+    "inStitching": "جاري الخياطة",
+    "completed": "مكتمل",
+    "late": "متأخر",
+    "completedNotPicked": "مكتمل ولكن لم يُستلم",
+    "delivered": "تم التسليم"
+  },
+  "landing": {
+    "hero": {
+      "badge": "موثوق من قبل أكثر من 500 محل خياطة",
+      "titlePrefix": "نظام إدارة",
+      "titleHighlight": "محل الخياطة",
+      "titleSuffix": "المتميز",
+      "subtitle": "قم بتبسيط أعمال الخياطة الخاصة بك من خلال حل الإدارة الشامل لدينا. من تتبع الطلبات إلى إدارة العملاء، كل شيء في مكان واحد.",
+      "getStarted": "ابدأ الآن",
+      "signIn": "تسجيل الدخول",
+      "stats": {
+        "shops": "محلات نشطة",
+        "orders": "طلبات مدارة",
+        "uptime": "وقت التشغيل"
+      }
+    },
+    "features": {
+      "title": "ميزات قوية",
+      "description": "كل ما تحتاجه لإدارة أعمال الخياطة الخاصة بك بكفاءة",
+      "orderManagement": {
+        "title": "إدارة الطلبات",
+        "desc": "تتبع الطلبات من الإنشاء إلى الانتهاء مع تحديثات الحالة المفصلة والإشعارات."
+      },
+      "customerProfiles": {
+        "title": "ملفات العملاء",
+        "desc": "احتفظ بملفات تعريف مفصلة للعملاء مع سجل القياسات والتفضيلات."
+      },
+      "analytics": {
+        "title": "تحليلات الأعمال",
+        "desc": "احصل على رؤى مع تقارير وتحليلات شاملة لاتخاذ قرارات أفضل."
+      },
+      "learnMore": "اعرف المزيد"
+    },
+    "roles": {
+      "title": "مصمم للجميع",
+      "subtitle": "واجهات مختلفة لأدوار مختلفة لتحقيق أقصى قدر من الكفاءة",
+      "customer": {
+        "title": "العميل",
+        "desc": "قدم الطلبات، وتتبع التقدم، وقم بإدارة قياساتك",
+        "button": "دخول العملاء"
+      },
+      "tailor": {
+        "title": "الخياط",
+        "desc": "إدارة الطلبات الموكلة وتحديث حالة التقدم",
+        "button": "دخول الخياطين"
+      },
+      "admin": {
+        "title": "المشرف",
+        "desc": "الإشراف على النظام بأكمله وإدارة الموظفين والتقارير",
+        "button": "دخول المشرف"
+      }
+    },
+    "cta": {
+      "title": "هل أنت مستعد لتحويل أعمال الخياطة الخاصة بك؟",
+      "subtitle": "انضم إلى مئات الخياطين الذين قاموا بتبسيط عملياتهم باستخدام نظامنا",
+      "startTrial": "ابدأ التجربة المجانية",
+      "viewDemo": "شاهد العرض التجريبي"
+    }
+  }
+}
