@@ -14,5 +14,7 @@ export const supabaseAdmin = (supabaseUrl && supabaseServiceKey)
     : (null as any);
 
 if (!supabaseAdmin) {
-    console.warn('Supabase Admin credentials missing. Admin functions will fail.');
+    console.error('Supabase Admin configuration error:');
+    if (!supabaseUrl) console.error('- NEXT_PUBLIC_SUPABASE_URL is missing');
+    if (!supabaseServiceKey) console.error('- SUPABASE_SERVICE_ROLE_KEY is missing');
 }

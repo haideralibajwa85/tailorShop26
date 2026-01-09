@@ -21,21 +21,30 @@ export default function LoginPage() {
   useEffect(() => {
     setMounted(true);
 
+    if (!supabase) {
+      console.error('Supabase client is not initialized in LoginPage.');
+      return;
+    }
+
     // Check if user is already logged in
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        console.log('Login page - User already logged in, checking role...');
-        const { data: profile } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          console.log('Login page - User already logged in, checking role...');
+          const { data: profile } = await supabase
+            .from('users')
+            .select('role')
+            .eq('id', session.user.id)
+            .single();
 
-        if (profile?.role) {
-          console.log('Login page - Redirecting to dashboard for role:', profile.role);
-          router.push(`/${profile.role}/dashboard`);
+          if (profile?.role) {
+            console.log('Login page - Redirecting to dashboard for role:', profile.role);
+            router.push(`/${profile.role}/dashboard`);
+          }
         }
+      } catch (err) {
+        console.error('Error checking session in LoginPage:', err);
       }
     };
 
@@ -44,6 +53,12 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!supabase) {
+      toast.error('System configuration error: Supabase client not initialized. Please check environment variables.');
+      return;
+    }
+
     setIsLoading(true);
 
     try {

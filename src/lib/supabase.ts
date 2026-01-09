@@ -16,7 +16,10 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
 
 if (!supabase) {
   if (typeof window !== 'undefined') {
-    console.error('Supabase credentials missing. Check your NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.');
+    console.error('Supabase configuration error:');
+    if (!supabaseUrl) console.error('- NEXT_PUBLIC_SUPABASE_URL is missing');
+    if (!supabaseAnonKey) console.error('- NEXT_PUBLIC_SUPABASE_ANON_KEY is missing (checked fallbacks too)');
+    console.error('Check your Vercel/Environment settings.');
   } else {
     console.warn('Supabase credentials missing during build/SSR. Skipping initialization.');
   }
