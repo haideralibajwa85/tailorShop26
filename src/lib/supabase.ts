@@ -5,7 +5,15 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 // Create client with auth persistence
-export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
+// We use a safe check here because during build time, these variables might be missing
+// but the modules are still analyzed by Next.js
+export const supabase = (supabaseUrl && supabaseAnonKey)
+  ? createBrowserClient(supabaseUrl, supabaseAnonKey)
+  : (null as any);
+
+if (!supabase) {
+  console.warn('Supabase credentials missing. Client initialization skipped.');
+}
 
 // Type definitions for our database
 export interface User {

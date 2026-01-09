@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
                                 </td>
                             </tr>
                         ) : (
-                            orders.map((order) => (
+                            orders.map((order: any) => (
                                 <tr key={order.id} className="border-b hover:bg-gray-50 transition-colors">
                                     <td className="p-4 font-medium text-gray-900">{order.order_id}</td>
                                     <td className="p-4">

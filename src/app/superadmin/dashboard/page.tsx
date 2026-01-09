@@ -27,7 +27,7 @@ export default function SuperadminDashboard() {
         console.log('Dashboard - Starting superadmin check');
         const { data: { user } } = await supabase.auth.getUser();
         console.log('Dashboard - Auth user:', user);
-        
+
         if (!user) {
             console.log('Dashboard - No user found, redirecting to login');
             router.push('/auth/login');
@@ -75,7 +75,7 @@ export default function SuperadminDashboard() {
             setStats({
                 totalOrganizations: orgs?.length || 0,
                 totalUsers: userCount || 0,
-                activeSubscriptions: orgs?.filter(o => o.subscription_status === 'active').length || 0
+                activeSubscriptions: orgs?.filter((o: any) => o.subscription_status === 'active').length || 0
             });
         } catch (error: any) {
             toast.error('Failed to load dashboard data');
@@ -157,7 +157,7 @@ export default function SuperadminDashboard() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
-                                    {organizations.map((org) => (
+                                    {organizations.map((org: any) => (
                                         <tr key={org.id} className="hover:bg-gray-50 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="font-semibold text-gray-900">{org.name}</div>

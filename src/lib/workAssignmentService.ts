@@ -213,17 +213,17 @@ export const workAssignmentService = {
             if (error) throw error;
 
             const total = data?.length || 0;
-            const completed = data?.filter(a => a.status === 'completed').length || 0;
-            const in_progress = data?.filter(a => a.status === 'in_progress').length || 0;
-            const pending = data?.filter(a => a.status === 'assigned').length || 0;
+            const completed = data?.filter((a: any) => a.status === 'completed').length || 0;
+            const in_progress = data?.filter((a: any) => a.status === 'in_progress').length || 0;
+            const pending = data?.filter((a: any) => a.status === 'assigned').length || 0;
 
             let avg_quality = 0;
-            const rated = data?.filter(a => a.quality_rating) || [];
+            const rated = data?.filter((a: any) => a.quality_rating) || [];
             if (rated.length > 0) {
-                avg_quality = rated.reduce((sum, a) => sum + (a.quality_rating || 0), 0) / rated.length;
+                avg_quality = rated.reduce((sum: number, a: any) => sum + (a.quality_rating || 0), 0) / rated.length;
             }
 
-            const total_hours = data?.reduce((sum, a) => sum + (a.actual_hours || 0), 0) || 0;
+            const total_hours = data?.reduce((sum: number, a: any) => sum + (a.actual_hours || 0), 0) || 0;
 
             return {
                 success: true,
@@ -255,7 +255,7 @@ export const workAssignmentService = {
             if (sError) throw sError;
 
             // 2. Get all assignments for these stitchers
-            const stitcherIds = stitchers.map(s => s.id);
+            const stitcherIds = stitchers.map((s: any) => s.id);
             const { data: assignments, error: aError } = await supabase
                 .from('work_assignments')
                 .select('*')
@@ -264,16 +264,16 @@ export const workAssignmentService = {
             if (aError) throw aError;
 
             // 3. Aggregate stats
-            const stats = stitchers.map(s => {
-                const sAssignments = assignments.filter(a => a.stitcher_id === s.id);
+            const stats = stitchers.map((s: any) => {
+                const sAssignments = assignments.filter((a: any) => a.stitcher_id === s.id);
                 const total = sAssignments.length;
-                const completed = sAssignments.filter(a => a.status === 'completed').length;
-                const in_progress = sAssignments.filter(a => (a.status === 'in_progress' || a.status === 'assigned')).length;
+                const completed = sAssignments.filter((a: any) => a.status === 'completed').length;
+                const in_progress = sAssignments.filter((a: any) => (a.status === 'in_progress' || a.status === 'assigned')).length;
 
                 let avg_rating = 0;
-                const rated = sAssignments.filter(a => a.quality_rating);
+                const rated = sAssignments.filter((a: any) => a.quality_rating);
                 if (rated.length > 0) {
-                    avg_rating = rated.reduce((sum, a) => sum + (a.quality_rating || 0), 0) / rated.length;
+                    avg_rating = rated.reduce((sum: number, a: any) => sum + (a.quality_rating || 0), 0) / rated.length;
                 }
 
                 return {

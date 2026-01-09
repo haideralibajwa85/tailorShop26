@@ -65,14 +65,14 @@ export default function TailorDashboard() {
             if (orders) {
                 // Calc stats
                 const counts = {
-                    pending: orders.filter(o => o.status === 'pending').length || 0,
-                    inProgress: orders.filter(o => o.status === 'inStitching' || o.status === 'in_stitching').length || 0,
-                    completed: orders.filter(o => o.status === 'completed').length || 0,
+                    pending: orders.filter((o: any) => o.status === 'pending').length || 0,
+                    inProgress: orders.filter((o: any) => o.status === 'inStitching' || o.status === 'in_stitching').length || 0,
+                    completed: orders.filter((o: any) => o.status === 'completed').length || 0,
                 };
                 setStats(counts);
 
                 // Filter for "Live" tracker (Active only + maybe top 10 recent)
-                const activeOrders = orders.filter(o => o.status === 'pending' || o.status === 'in_stitching' || o.status === 'inStitching').slice(0, 10);
+                const activeOrders = orders.filter((o: any) => o.status === 'pending' || o.status === 'in_stitching' || o.status === 'inStitching').slice(0, 10);
                 setRecentOrders(activeOrders);
 
                 // Fetch assignments for these orders

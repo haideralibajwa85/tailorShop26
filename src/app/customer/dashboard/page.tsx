@@ -74,7 +74,7 @@ export default function CustomerDashboard() {
       console.log('Customer Dashboard - Starting data fetch');
       const { data: { user } } = await supabase.auth.getUser();
       console.log('Customer Dashboard - Auth user:', user);
-      
+
       if (!user) {
         console.log('Customer Dashboard - No user found, redirecting to login');
         router.push('/auth/login');
@@ -88,7 +88,7 @@ export default function CustomerDashboard() {
         .select('*')
         .eq('id', user.id)
         .single();
-      
+
       console.log('Customer Dashboard - Profile from DB:', profile);
       console.log('Customer Dashboard - Profile error:', profileError);
       setUserProfile(profile);
@@ -192,7 +192,7 @@ export default function CustomerDashboard() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {orders.length > 0 ? (
-                  orders.map((order) => (
+                  orders.map((order: any) => (
                     <OrderRow
                       key={order.id}
                       orderId={order.order_id}

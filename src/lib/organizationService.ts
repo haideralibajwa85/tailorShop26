@@ -132,7 +132,7 @@ export const organizationService = {
                 total: data.length,
             };
 
-            data.forEach(user => {
+            data.forEach((user: any) => {
                 if (user.role in counts) {
                     counts[user.role as keyof typeof counts]++;
                 }

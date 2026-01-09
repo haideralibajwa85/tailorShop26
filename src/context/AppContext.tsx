@@ -42,7 +42,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     initAuth();
 
     // Listen for changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: any, session: any) => {
       if (session) {
         try {
           const profile = await userAPI.getCurrentUser();

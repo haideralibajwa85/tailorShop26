@@ -96,7 +96,7 @@ function OrderForm() {
             setCustomers(customersData || []);
 
             if (customerIdFromQuery) {
-                const found = customersData?.find(c => c.id === customerIdFromQuery);
+                const found = customersData?.find((c: any) => c.id === customerIdFromQuery);
                 if (found) setSelectedCustomer(found);
             }
 

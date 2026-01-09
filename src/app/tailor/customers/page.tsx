@@ -68,7 +68,7 @@ export default function TailorCustomersPage() {
         }
     };
 
-    const filteredCustomers = customers.filter(customer =>
+    const filteredCustomers = customers.filter((customer: any) =>
         customer.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         customer.phone?.includes(searchQuery) ||
         customer.email?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -127,7 +127,7 @@ export default function TailorCustomersPage() {
                         </thead>
                         <tbody className="divide-y divide-gray-50">
                             {filteredCustomers.length > 0 ? (
-                                filteredCustomers.map((customer) => (
+                                filteredCustomers.map((customer: any) => (
                                     <tr key={customer.id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">

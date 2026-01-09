@@ -154,7 +154,7 @@ export default function WorkAssignmentsPage() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {assignments.map((assignment) => (
+                                    {assignments.map((assignment: any) => (
                                         <tr key={assignment.id} className="hover:bg-gray-50">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="font-medium text-gray-900">{assignment.orders?.order_id}</div>

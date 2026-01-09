@@ -28,8 +28,8 @@ export default function StitcherDashboard() {
                 setAssignments(data);
 
                 // Simple stats
-                const active = data.filter(a => a.status !== 'completed').length;
-                const completed = data.filter(a => a.status === 'completed').length;
+                const active = data.filter((a: any) => a.status !== 'completed').length;
+                const completed = data.filter((a: any) => a.status === 'completed').length;
                 setStats({ active, completedToday: completed });
             }
         } catch (error) {
@@ -92,7 +92,7 @@ export default function StitcherDashboard() {
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
                         <p className="text-gray-500 mt-4 font-medium tracking-wide">Syncing your work...</p>
                     </div>
-                ) : assignments.length > 0 ? assignments.map((asgn) => (
+                ) : assignments.length > 0 ? assignments.map((asgn: any) => (
                     <div key={asgn.id} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-xl transition-all duration-300 transform border-l-8 border-l-indigo-600">
                         <div className="flex gap-5">
                             <div className="w-16 h-16 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-3xl text-slate-300">
@@ -127,8 +127,8 @@ export default function StitcherDashboard() {
                                 <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner">
                                     <div
                                         className={`h-full transition-all duration-1000 ease-out shadow-sm ${asgn.progress_percentage === 100 ? 'bg-gradient-to-r from-green-400 to-green-600' :
-                                                asgn.progress_percentage > 50 ? 'bg-gradient-to-r from-blue-400 to-indigo-600' :
-                                                    'bg-gradient-to-r from-indigo-400 to-indigo-600'
+                                            asgn.progress_percentage > 50 ? 'bg-gradient-to-r from-blue-400 to-indigo-600' :
+                                                'bg-gradient-to-r from-indigo-400 to-indigo-600'
                                             }`}
                                         style={{ width: `${asgn.progress_percentage}%` }}
                                     ></div>
@@ -139,8 +139,8 @@ export default function StitcherDashboard() {
                                 onClick={() => handleUpdateProgress(asgn.id, asgn.progress_percentage)}
                                 disabled={asgn.progress_percentage === 100}
                                 className={`w-full py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all shadow-md active:scale-95 ${asgn.progress_percentage === 100
-                                        ? 'bg-green-50 text-green-600 cursor-default border border-green-200'
-                                        : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-200 shadow-xl'
+                                    ? 'bg-green-50 text-green-600 cursor-default border border-green-200'
+                                    : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow-indigo-200 shadow-xl'
                                     }`}
                             >
                                 {asgn.progress_percentage === 0 ? '▶ Start Now' :

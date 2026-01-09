@@ -193,7 +193,7 @@ export default function TailorOrdersPage() {
             </header>
 
             <div className="grid gap-6">
-                {orders.length === 0 ? <p className="text-gray-500">No orders currently assigned.</p> : orders.map(order => (
+                {orders.length === 0 ? <p className="text-gray-500">No orders currently assigned.</p> : orders.map((order: any) => (
                     <div key={order.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div className="p-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-50 bg-gray-50/50">
                             <div className="mb-4 md:mb-0 w-full md:w-auto">
@@ -226,7 +226,7 @@ export default function TailorOrdersPage() {
                                         onChange={(e) => handleAssignStitcher(order.id, e.target.value)}
                                     >
                                         <option value="">Unassigned</option>
-                                        {stitchers.map(s => (
+                                        {stitchers.map((s: any) => (
                                             <option key={s.id} value={s.id}>{s.full_name}</option>
                                         ))}
                                     </select>
