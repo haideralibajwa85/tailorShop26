@@ -19,56 +19,63 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    // Check for standard name and the alternative name provided by the user
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Middleware: Supabase environment variables are missing');
-    return response;
-  }
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn('Middleware: Supabase environment variables are missing. Mismatch?');
+      return response;
+    }
 
-  const supabase = createServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
-          response = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          );
+    const supabase = createServerClient(
+      supabaseUrl,
+      supabaseAnonKey,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
+            response = NextResponse.next({
+              request,
+            });
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options)
+            );
+          },
         },
       },
-    },
-  );
+    );
 
-  // Use getUser() for better security than getSession()
-  const { data: { user } } = await supabase.auth.getUser();
+    // Use getUser() for better security than getSession()
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-  const { pathname } = request.nextUrl;
+    if (error) {
+      console.error('Middleware Error during getUser:', error.message);
+    }
 
-  // Simple check: if no user and not public route, redirect to login
-  if (!user && !PUBLIC_ROUTES.some((route) => matchRoute(pathname, route))) {
-    const redirectUrl = new URL('/auth/login', request.url);
-    redirectUrl.searchParams.set('redirectTo', pathname);
-    return NextResponse.redirect(redirectUrl);
+    const { pathname } = request.nextUrl;
+
+    // Simple check: if no user and not public route, redirect to login
+    if (!user && !PUBLIC_ROUTES.some((route) => matchRoute(pathname, route))) {
+      const redirectUrl = new URL('/auth/login', request.url);
+      redirectUrl.searchParams.set('redirectTo', pathname);
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    // If user exists and trying to access auth pages, redirect to dashboard
+    if (user && (pathname === '/auth/login' || pathname === '/auth/register')) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+
+    return response;
+  } catch (e: any) {
+    console.error('Middleware Critical Failure:', e.message);
+    return response; // Fail open to avoid blocking all traffic if middleware crashes
   }
-
-  // If user exists and trying to access auth pages, redirect to dashboard
-  if (user && (pathname === '/auth/login' || pathname === '/auth/register')) {
-    // We don't know the role here from just the auth user without a DB call, 
-    // but we can try to redirect to a generic home or the dashboard based on common naming.
-    // However, to keep it simple, letting it pass or going to a default is safer than a hard loop.
-    return NextResponse.redirect(new URL('/', request.url));
-  }
-
-  return response;
 }
 
 export const config = {
