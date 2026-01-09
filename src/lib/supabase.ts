@@ -2,7 +2,10 @@ import { createBrowserClient } from '@supabase/ssr';
 
 // Supabase client configuration
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+// Support standard and alternative name for anon key
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
+  '';
 
 // Create client with auth persistence
 // We use a safe check here because during build time, these variables might be missing
@@ -12,7 +15,11 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
   : (null as any);
 
 if (!supabase) {
-  console.warn('Supabase credentials missing. Client initialization skipped.');
+  if (typeof window !== 'undefined') {
+    console.error('Supabase credentials missing. Check your NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.');
+  } else {
+    console.warn('Supabase credentials missing during build/SSR. Skipping initialization.');
+  }
 }
 
 // Type definitions for our database

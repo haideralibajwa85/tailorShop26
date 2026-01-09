@@ -19,6 +19,7 @@ export type CreateOrderData = Omit<Order, 'id' | 'order_id' | 'created_at' | 'up
 export const userAPI = {
   // Get current user profile
   getCurrentUser: async () => {
+    if (!supabase) return null;
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
 

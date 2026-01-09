@@ -41,6 +41,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     initAuth();
 
+    if (!supabase) {
+      console.warn('Supabase client not available, skipping auth listener.');
+      setLoading(false);
+      return;
+    }
+
     // Listen for changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event: any, session: any) => {
       if (session) {
