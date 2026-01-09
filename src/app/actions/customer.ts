@@ -11,6 +11,9 @@ export async function createCustomerAction(data: {
     role?: 'customer';
 }) {
     try {
+        if (!supabaseAdmin) {
+            throw new Error('Supabase Admin client not initialized');
+        }
         console.log('Creating customer with data:', data);
 
         // 1. Create the user in Supabase Auth

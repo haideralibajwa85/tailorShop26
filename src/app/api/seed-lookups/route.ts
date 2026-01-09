@@ -3,6 +3,10 @@ import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 
 export async function GET() {
     try {
+        if (!supabaseAdmin) {
+            console.error('Supabase Admin client not initialized');
+            return NextResponse.json({ success: false, error: 'Internal Server Error: Supabase Admin client not initialized' }, { status: 500 });
+        }
         console.log('Seeding lookup data...');
 
         // 1. Categories

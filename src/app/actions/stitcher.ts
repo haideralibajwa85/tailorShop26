@@ -11,6 +11,9 @@ export async function createStitcherAction(data: {
     organization_id: string;
 }) {
     try {
+        if (!supabaseAdmin) {
+            throw new Error('Supabase Admin client not initialized');
+        }
         const internalEmail = `${data.username}@worker.stitcher-mail.com`;
 
         // Create the user using the admin client

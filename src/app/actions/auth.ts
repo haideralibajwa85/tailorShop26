@@ -4,6 +4,9 @@ import { supabaseAdmin } from '../../lib/supabaseAdmin';
 
 export async function getEmailByPhone(phone: string) {
     try {
+        if (!supabaseAdmin) {
+            throw new Error('Supabase Admin client not initialized');
+        }
         // Use admin client to bypass RLS
         // Sanitize phone number: remove spaces, dashes, etc. kept only digits and +
         const sanitizedPhone = phone.replace(/[\s-]/g, '');
