@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { orderAPI } from '../../../lib/api';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const orderData = await request.json();
-    
+
     // Validate required fields
     if (!orderData.customer_id || !orderData.category || !orderData.clothing_type) {
       return NextResponse.json(
@@ -15,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     // Create the order
     const newOrder = await orderAPI.createOrder(orderData);
-    
+
     return NextResponse.json(
       { message: 'Order created successfully', order: newOrder },
       { status: 201 }
@@ -34,9 +36,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const customerId = searchParams.get('customer_id');
     const status = searchParams.get('status');
-    
+
     let orders;
-    
+
     if (customerId) {
       // Get orders for a specific customer
       orders = await orderAPI.getCustomerOrders(customerId);
@@ -49,7 +51,7 @@ export async function GET(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     return NextResponse.json({ orders }, { status: 200 });
   } catch (error: any) {
     console.error('Error fetching orders:', error);
