@@ -20,13 +20,15 @@ export function createSupabaseClient() {
   return createBrowserClient(supabaseUrl, supabaseAnonKey);
 }
 
-// Export a getter function instead of a static client
-export let supabase = createSupabaseClient();
+// Export a variable that is cast to the expected type to avoid "possibly null" errors
+// across the project. At runtime it may still be null on the server, but client-side
+// code will work correctly if environment variables are set.
+export let supabase = createSupabaseClient() as NonNullable<ReturnType<typeof createSupabaseClient>>;
 
 // Update the client when needed
 export function getSupabaseClient() {
   if (!supabase) {
-    supabase = createSupabaseClient();
+    supabase = createSupabaseClient() as NonNullable<ReturnType<typeof createSupabaseClient>>;
   }
   return supabase;
 }

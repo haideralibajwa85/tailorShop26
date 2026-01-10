@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
@@ -15,6 +15,13 @@ export default function AdminOrdersPage() {
     }, []);
 
     const fetchOrders = async () => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            setLoading(false);
+            return;
+        }
+        
         try {
             const { data, error } = await supabase
                 .from('orders')
@@ -35,6 +42,12 @@ export default function AdminOrdersPage() {
     };
 
     const handleUpdateStatus = async (orderId: string, currentStatus: string) => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            return;
+        }
+        
         const newStatus = window.prompt(`Enter new status (pending, in_stitching, completed, cancelled). Current: ${currentStatus}`, currentStatus);
         if (!newStatus || newStatus === currentStatus) return;
 

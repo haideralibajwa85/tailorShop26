@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaUser, FaClipboardList, FaPlus, FaChartBar, FaClock, FaCheck, FaExclamationTriangle, FaSignOutAlt, FaBox } from 'react-icons/fa';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { toast } from 'react-hot-toast';
 
 const StatCard = ({ href, icon, title, description, gradient }: { href: string; icon: React.ReactNode; title: string; description: string; gradient: string; }) => (
@@ -71,6 +71,13 @@ export default function CustomerDashboard() {
 
   const fetchDashboardData = async () => {
     try {
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        toast.error('Database connection unavailable');
+        setLoading(false);
+        return;
+      }
+      
       console.log('Customer Dashboard - Starting data fetch');
       const { data: { user } } = await supabase.auth.getUser();
       console.log('Customer Dashboard - Auth user:', user);
@@ -113,6 +120,12 @@ export default function CustomerDashboard() {
 
   const handleLogout = async () => {
     try {
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        toast.error('Database connection unavailable');
+        return;
+      }
+      
       await supabase.auth.signOut();
       toast.success('Logged out successfully');
       router.push('/auth/login');

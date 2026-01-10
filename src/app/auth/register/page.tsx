@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaUser, FaEnvelope, FaMobileAlt, FaLock, FaLanguage, FaMapMarkerAlt, FaBuilding, FaUserTag, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { organizationService, Organization } from '../../../lib/organizationService';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
@@ -58,6 +58,13 @@ export default function RegisterPage() {
 
     setIsLoading(true);
     try {
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        toast.error('Database connection unavailable');
+        setIsLoading(false);
+        return;
+      }
+      
       // 1. Sign up with Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,

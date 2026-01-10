@@ -20,6 +20,7 @@ export default function TailorOrdersPage() {
     }, []);
 
     const fetchInitialData = async () => {
+        if (!supabase) return;
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;

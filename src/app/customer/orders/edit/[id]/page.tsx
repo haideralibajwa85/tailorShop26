@@ -4,7 +4,7 @@ import { useState, ChangeEvent, FormEvent, ReactNode, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { FaTshirt, FaRulerVertical, FaPalette, FaCheck, FaArrowLeft, FaArrowRight, FaFileUpload, FaSpinner } from 'react-icons/fa';
 import { orderAPI, userAPI, staffAPI } from '../../../../../lib/api';
-import { supabase } from '../../../../../lib/supabase';
+import { getSupabaseClient } from '../../../../../lib/supabase';
 import { toast } from 'react-hot-toast';
 
 const InputField = ({ name, label, type = 'text', value, onChange, placeholder, required = false, children = null }: { name: string; label: string; type?: string; value: string | number; onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void; placeholder?: string; required?: boolean; children?: ReactNode; }) => (
@@ -74,6 +74,13 @@ export default function EditOrderPage() {
             setTailors(tailorsData as any[]);
 
             // 3. Get Order Details
+            const supabase = getSupabaseClient();
+            if (!supabase) {
+                toast.error('Database connection unavailable');
+                setIsFetching(false);
+                return;
+            }
+            
             let query = supabase.from('orders').select('*');
             const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orderId);
             if (isUuid) {
@@ -173,6 +180,13 @@ export default function EditOrderPage() {
             };
 
             // Need the UUID for update
+            const supabase = getSupabaseClient();
+            if (!supabase) {
+                toast.error('Database connection unavailable');
+                setIsLoading(false);
+                return;
+            }
+            
             const { data: orderObj } = await supabase.from('orders').select('id').eq('order_id', orderId).or(`id.eq.${orderId}`).single();
 
             if (!orderObj) {

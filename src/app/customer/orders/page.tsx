@@ -16,6 +16,7 @@ export default function OrderListPage() {
     }, []);
 
     const fetchOrders = async () => {
+        if (!supabase) return;
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;

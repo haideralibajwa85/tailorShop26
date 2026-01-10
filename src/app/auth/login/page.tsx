@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { getEmailByPhone } from '../../actions/auth';
@@ -21,13 +21,14 @@ export default function LoginPage() {
   useEffect(() => {
     setMounted(true);
 
-    if (!supabase) {
-      console.error('Supabase client is not initialized in LoginPage.');
-      return;
-    }
-
     // Check if user is already logged in
     const checkSession = async () => {
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        console.error('Supabase client is not initialized in LoginPage.');
+        return;
+      }
+      
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
@@ -54,14 +55,16 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!supabase) {
-      toast.error('System configuration error: Supabase client not initialized. Please check environment variables.');
-      return;
-    }
-
     setIsLoading(true);
 
     try {
+      const supabase = getSupabaseClient();
+      if (!supabase) {
+        toast.error('System configuration error: Supabase client not initialized. Please check environment variables.');
+        setIsLoading(false);
+        return;
+      }
+      
       let loginEmail = email;
 
       // Check if the input is a phone number (heuristic: contains only digits, +, -, or space)

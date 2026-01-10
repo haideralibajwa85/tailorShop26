@@ -19,6 +19,9 @@ const Navigation = () => {
 
   const handleLogout = async () => {
     try {
+      if (!supabase) {
+        throw new Error('Supabase client not initialized');
+      }
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
 

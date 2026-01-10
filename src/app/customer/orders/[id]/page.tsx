@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { supabase } from '../../../../lib/supabase';
+import { getSupabaseClient } from '../../../../lib/supabase';
 import { FaArrowLeft, FaRulerCombined, FaInfoCircle } from 'react-icons/fa';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
@@ -22,8 +22,15 @@ export default function OrderDetailPage() {
     }, [orderId]);
 
     const fetchOrderDetails = async () => {
-        // Try to find by UUID first, then by order_id string
         try {
+            const supabase = getSupabaseClient();
+            if (!supabase) {
+                toast.error('Database connection unavailable');
+                setLoading(false);
+                return;
+            }
+            
+            // Try to find by UUID first, then by order_id string
             let query = supabase.from('orders').select('*');
 
             // Simple check if it looks like a uuid

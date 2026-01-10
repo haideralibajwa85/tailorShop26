@@ -12,6 +12,9 @@ export default function LogoutButton() {
 
     const handleLogout = async () => {
         try {
+            if (!supabase) {
+                throw new Error('Supabase client not initialized');
+            }
             await supabase.auth.signOut();
             toast.success(t('auth.logout') + ' successful');
             router.push('/auth/login');

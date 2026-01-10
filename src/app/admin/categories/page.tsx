@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { FaTags, FaPlus, FaTrash } from 'react-icons/fa';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
@@ -15,6 +15,13 @@ export default function AdminCategoriesPage() {
     }, []);
 
     const fetchCategories = async () => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            setLoading(false);
+            return;
+        }
+        
         try {
             const { data, error } = await supabase.from('categories').select('*').order('name');
             if (error) throw error;
@@ -28,6 +35,12 @@ export default function AdminCategoriesPage() {
     };
 
     const addCategory = async () => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            return;
+        }
+        
         const name = window.prompt("Enter new category name:");
         if (!name) return;
 
@@ -47,6 +60,12 @@ export default function AdminCategoriesPage() {
     };
 
     const toggleStatus = async (id: string, currentStatus: boolean) => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            return;
+        }
+        
         try {
             const { error } = await supabase
                 .from('categories')

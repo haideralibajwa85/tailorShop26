@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
@@ -20,6 +20,12 @@ export default function ResetPasswordPage() {
     useEffect(() => {
         // Check if we have a valid session from the reset link
         const checkSession = async () => {
+            const supabase = getSupabaseClient();
+            if (!supabase) {
+                toast.error('Database connection unavailable');
+                return;
+            }
+            
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
                 setIsValidToken(true);
@@ -48,6 +54,13 @@ export default function ResetPasswordPage() {
         setIsLoading(true);
 
         try {
+            const supabase = getSupabaseClient();
+            if (!supabase) {
+                toast.error('Database connection unavailable');
+                setIsLoading(false);
+                return;
+            }
+            
             const { error } = await supabase.auth.updateUser({
                 password: password,
             });

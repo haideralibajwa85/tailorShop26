@@ -1,7 +1,14 @@
-import { supabase } from './src/lib/supabase';
+import { getSupabaseClient } from './src/lib/supabase';
 
 async function diagnose() {
     console.log('--- Order Diagnostic ---');
+
+    const supabase = getSupabaseClient();
+    
+    if (!supabase) {
+        console.error('Supabase client is not available. Make sure environment variables are set properly.');
+        return;
+    }
 
     // 1. Get the latest order
     const { data: order, error: orderError } = await supabase

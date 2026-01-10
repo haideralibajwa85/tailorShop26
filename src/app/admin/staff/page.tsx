@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { FaUserShield, FaUserTie, FaUser, FaEdit } from 'react-icons/fa';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
@@ -15,6 +15,13 @@ export default function AdminStaffPage() {
     }, []);
 
     const fetchUsers = async () => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            setLoading(false);
+            return;
+        }
+        
         try {
             const { data, error } = await supabase
                 .from('users')
@@ -32,6 +39,12 @@ export default function AdminStaffPage() {
     };
 
     const updateUserRole = async (userId: string, currentRole: string) => {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+            toast.error('Database connection unavailable');
+            return;
+        }
+        
         const newRole = window.prompt(`Enter new role for user (admin, tailor, customer). Current: ${currentRole}`, currentRole);
 
         if (!newRole || newRole === currentRole) return;

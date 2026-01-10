@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { FaEnvelope, FaArrowLeft } from 'react-icons/fa';
-import { supabase } from '../../../lib/supabase';
+import { getSupabaseClient } from '../../../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,13 @@ export default function ForgotPasswordPage() {
         setIsLoading(true);
 
         try {
+            const supabase = getSupabaseClient();
+            if (!supabase) {
+                toast.error('Database connection unavailable');
+                setIsLoading(false);
+                return;
+            }
+            
             const redirectTo = `${window.location.origin}/auth/reset-password`;
             console.log('Attempting password reset for:', email);
             console.log('Redirect URL:', redirectTo);
