@@ -7,7 +7,10 @@ export function createSupabaseAdminClient() {
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseServiceKey) {
-    console.warn('Supabase Admin configuration error:\n- NEXT_PUBLIC_SUPABASE_URL is missing\n- SUPABASE_SERVICE_ROLE_KEY is missing');
+    // Only warn at runtime, not during build time
+    if (typeof window !== 'undefined' || process.env.NODE_ENV === 'production' && !process.env.NEXT_PHASE) {
+      console.warn('Supabase Admin configuration error: Keys are missing. Ensure they are added to Vercel Settings.');
+    }
     return null;
   }
 
