@@ -4,16 +4,19 @@ import { createBrowserClient } from '@supabase/ssr';
 // This ensures the client is only created in the browser environment
 export function createSupabaseClient() {
   if (typeof window === 'undefined') {
-    // Don't initialize on the server side
     return null;
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn('Supabase configuration: Environment variables are missing. Check your .env.local file.');
+    const missing = [];
+    if (!supabaseUrl) missing.push('NEXT_PUBLIC_SUPABASE_URL');
+    if (!supabaseAnonKey) missing.push('NEXT_PUBLIC_SUPABASE_ANON_KEY');
+
+    console.warn(`Supabase Configuration Error: The following variables are missing from your environment: ${missing.join(', ')}. 
+Please check your .env.local file. See docs/FIX_SUPABASE_CONFIG.md for more info.`);
     return null;
   }
 
