@@ -1,23 +1,34 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-// Supabase client configuration
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-// Support standard and alternative name for anon key
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
-  '';
-
-// Create client with auth persistence
-// We use a safe check here because during build time, these variables might be missing
-// but the modules are still analyzed by Next.js
-export const supabase = (supabaseUrl && supabaseAnonKey)
-  ? createBrowserClient(supabaseUrl, supabaseAnonKey)
-  : (null as any);
-
-if (!supabase) {
-  if (typeof window !== 'undefined') {
-    console.warn('Supabase configuration: Browser client not initialized. Check Env Vars.');
+// Create a function to initialize the Supabase client
+// This ensures the client is only created in the browser environment
+export function createSupabaseClient() {
+  if (typeof window === 'undefined') {
+    // Don't initialize on the server side
+    return null;
   }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase configuration: Environment variables are missing. Check your .env.local file.');
+    return null;
+  }
+
+  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+}
+
+// Export a getter function instead of a static client
+export let supabase = createSupabaseClient();
+
+// Update the client when needed
+export function getSupabaseClient() {
+  if (!supabase) {
+    supabase = createSupabaseClient();
+  }
+  return supabase;
 }
 
 // Type definitions for our database

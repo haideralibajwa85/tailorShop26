@@ -1,6 +1,11 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 
+// Helper function to check if we're in a server environment
+function isServer() {
+  return typeof window === 'undefined';
+}
+
 const PUBLIC_ROUTES = ['/', '/auth/login', '/auth/register', '/auth/forgot-password'];
 
 const ROUTE_ROLE_MAP: Record<string, Array<'superadmin' | 'admin' | 'tailor' | 'customer'>> = {

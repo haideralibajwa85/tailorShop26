@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { getSupabaseClient } from './supabase';
 import {
   User,
   Category,
@@ -15,11 +15,20 @@ export type CreateOrderData = Omit<Order, 'id' | 'order_id' | 'created_at' | 'up
   designFile?: File | null;
 };
 
+// Helper function to get the Supabase client
+function getSupabase() {
+  const client = getSupabaseClient();
+  if (!client) {
+    throw new Error('Supabase client not initialized. Check your environment variables.');
+  }
+  return client;
+}
+
 // User API functions
 export const userAPI = {
   // Get current user profile
   getCurrentUser: async () => {
-    if (!supabase) return null;
+    const supabase = getSupabase();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
 
@@ -35,6 +44,7 @@ export const userAPI = {
 
   // Update user profile
   updateUserProfile: async (userData: Partial<User>) => {
+    const supabase = getSupabase();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) throw new Error('User not authenticated');
 
@@ -51,6 +61,7 @@ export const userAPI = {
 
   // Create new user
   createUser: async (userData: Omit<User, 'id' | 'created_at'>) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('users')
       .insert([userData])
@@ -66,6 +77,7 @@ export const userAPI = {
 export const categoryAPI = {
   // Get all categories
   getCategories: async () => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('categories')
       .select('*')
@@ -77,6 +89,7 @@ export const categoryAPI = {
 
   // Get category by ID
   getCategoryById: async (id: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('categories')
       .select('*')
@@ -89,6 +102,7 @@ export const categoryAPI = {
 
   // Create new category
   createCategory: async (name: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('categories')
       .insert([{ name }])
@@ -104,6 +118,7 @@ export const categoryAPI = {
 export const clothingTypeAPI = {
   // Get all clothing types
   getClothingTypes: async () => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('clothing_types')
       .select('*')
@@ -115,6 +130,7 @@ export const clothingTypeAPI = {
 
   // Get clothing types by category
   getClothingTypesByCategory: async (categoryId: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('clothing_types')
       .select('*')
@@ -127,6 +143,7 @@ export const clothingTypeAPI = {
 
   // Create new clothing type
   createClothingType: async (name: string, categoryId: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('clothing_types')
       .insert([{ name, category_id: categoryId }])
@@ -142,6 +159,7 @@ export const clothingTypeAPI = {
 export const orderAPI = {
   // Get all orders for a customer
   getCustomerOrders: async (customerId: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('orders')
       .select('*')
@@ -154,6 +172,7 @@ export const orderAPI = {
 
   // Get order by ID
   getOrderById: async (orderId: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('orders')
       .select(`
@@ -169,6 +188,7 @@ export const orderAPI = {
 
   // Create new order
   createOrder: async (orderData: CreateOrderData) => {
+    const supabase = getSupabase();
     // Generate order ID (Simplified)
     const { count } = await supabase.from('orders').select('*', { count: 'exact', head: true });
     const orderNumber = (count || 0) + 1;
@@ -236,6 +256,7 @@ export const orderAPI = {
 
   // Update order
   updateOrder: async (orderId: string, orderData: Partial<CreateOrderData>) => {
+    const supabase = getSupabase();
     const { measurements, designFile, ...orderWithoutExtras } = orderData;
     let designReferenceUrl = '';
 
@@ -296,6 +317,7 @@ export const orderAPI = {
 
   // Delete order
   deleteOrder: async (orderId: string) => {
+    const supabase = getSupabase();
     const { error } = await supabase
       .from('orders')
       .delete()
@@ -307,6 +329,7 @@ export const orderAPI = {
 
   // Add extra charge
   addExtraCharge: async (orderId: string, amount: number, description: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('order_extra_charges')
       .insert({ order_id: orderId, amount, description })
@@ -319,6 +342,7 @@ export const orderAPI = {
 
   // Get extra charges for an order
   getExtraCharges: async (orderId: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('order_extra_charges')
       .select('*')
@@ -331,6 +355,7 @@ export const orderAPI = {
 
   // Update order status
   updateOrderStatus: async (orderId: string, status: Order['status']) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('orders')
       .update({ status, updated_at: new Date().toISOString() })
@@ -344,6 +369,7 @@ export const orderAPI = {
 
   // Get orders by status
   getOrdersByStatus: async (status: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('orders')
       .select('*')
@@ -359,6 +385,7 @@ export const orderAPI = {
 export const staffAPI = {
   // Get all staff members
   getStaff: async () => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('staff')
       .select('*, users (full_name, email, phone)')
@@ -370,6 +397,7 @@ export const staffAPI = {
 
   // Get staff by role
   getStaffByRole: async (role: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('staff')
       .select('*, users (full_name, email, phone)')
@@ -382,6 +410,7 @@ export const staffAPI = {
 
   // Get only tailors
   getTailors: async () => {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from('users')
       .select('*')
@@ -398,6 +427,7 @@ export const staffAPI = {
 export const authAPI = {
   // Sign up with email and password
   signUp: async (email: string, password: string, userData: Partial<User>) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -412,6 +442,7 @@ export const authAPI = {
 
   // Sign in with email and password
   signIn: async (email: string, password: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -423,6 +454,7 @@ export const authAPI = {
 
   // Sign in with phone number (OTP)
   signInWithPhone: async (phone: string) => {
+    const supabase = getSupabase();
     const { data, error } = await supabase.auth.signInWithOtp({
       phone
     });
@@ -433,12 +465,14 @@ export const authAPI = {
 
   // Sign out
   signOut: async () => {
+    const supabase = getSupabase();
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
   },
 
   // Get current session
   getCurrentSession: async () => {
+    const supabase = getSupabase();
     const { data: { session }, error } = await supabase.auth.getSession();
     if (error) throw new Error(error.message);
     return session;

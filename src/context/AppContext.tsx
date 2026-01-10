@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { User, supabase } from '../lib/supabase';
+import { User, getSupabaseClient } from '../lib/supabase';
 import { userAPI } from '../lib/api';
 
 interface AppContextType {
@@ -41,6 +41,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     initAuth();
 
+    const supabase = getSupabaseClient();
     if (!supabase) {
       console.warn('Supabase client not available, skipping auth listener.');
       setLoading(false);
