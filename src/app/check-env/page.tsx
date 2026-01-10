@@ -26,7 +26,7 @@ export default function CheckEnvPage() {
             {!env.url || !env.key ? (
                 <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
                     <p className="font-bold">Keys are missing!</p>
-                    <p>Please add them to your Vercel Project Settings > Environment Variables and then <strong>Redeploy</strong>.</p>
+                    <p>Please add them to your Vercel Project Settings &gt; Environment Variables and then <strong>Redeploy</strong>.</p>
                 </div>
             ) : (
                 <div className="mt-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
