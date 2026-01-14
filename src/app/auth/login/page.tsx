@@ -28,7 +28,7 @@ export default function LoginPage() {
         console.error('Supabase client is not initialized in LoginPage.');
         return;
       }
-      
+
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
@@ -64,7 +64,7 @@ export default function LoginPage() {
         setIsLoading(false);
         return;
       }
-      
+
       let loginEmail = email;
 
       // Check if the input is a phone number (heuristic: contains only digits, +, -, or space)
@@ -268,14 +268,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-gray-600">
-              {t('auth.dontHaveAccount')}{' '}
-              <Link href="/auth/register" className="text-blue-600 font-medium hover:underline">
-                {t('auth.signUpTitle')}
-              </Link>
-            </p>
-          </div>
+
         </div>
       </div>
     </div>

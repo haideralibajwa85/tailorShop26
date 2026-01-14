@@ -91,9 +91,11 @@ export default function TailorOrderDetailPage() {
     };
 
     const handleSave = async () => {
+        console.log('Order Edit Debug - Start', { orderId: order.id });
         setSaving(true);
         try {
             // 1. Update Order
+            console.log('Order Edit Debug - Updating core details');
             const { error: orderError } = await supabase
                 .from('orders')
                 .update({
@@ -107,12 +109,14 @@ export default function TailorOrderDetailPage() {
                 })
                 .eq('id', order.id);
 
-            if (orderError) throw orderError;
+            if (orderError) {
+                console.error('Order Edit Debug - Order update error:', orderError);
+                throw orderError;
+            }
 
             // 2. Update Measurements
             if (measurements) {
-                // Filter out non-editable fields from editMeasurements if necessary, 
-                // but usually we just send the fields we want to update.
+                console.log('Order Edit Debug - Updating measurements');
                 const { id, order_id, created_at, updated_at, ...measureUpdates } = editMeasurements;
 
                 const { error: measError } = await supabase
@@ -120,17 +124,22 @@ export default function TailorOrderDetailPage() {
                     .update(measureUpdates)
                     .eq('order_id', order.id);
 
-                if (measError) throw measError;
+                if (measError) {
+                    console.error('Order Edit Debug - Measurement update error:', measError);
+                    throw measError;
+                }
             }
 
+            console.log('Order Edit Debug - Success');
             toast.success('Order updated successfully!');
             setIsEditing(false);
             fetchOrderDetails(); // Refresh data
 
         } catch (error: any) {
-            console.error('Error updating order:', error);
-            toast.error('Failed to update order.');
+            console.error('Order Edit Debug - CRITICAL ERROR:', error);
+            toast.error('Failed to update order: ' + (error.message || 'Unknown error'));
         } finally {
+            console.log('Order Edit Debug - End (finally)');
             setSaving(false);
         }
     };

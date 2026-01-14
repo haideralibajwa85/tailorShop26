@@ -35,7 +35,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
               <Link
-                href="/auth/register"
+                href="/auth/login"
                 className="group inline-flex items-center bg-gradient-to-r from-blue-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
               >
                 {t('landing.hero.getStarted')}
@@ -206,7 +206,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
-              href="/auth/register"
+              href="/auth/login"
               className="group inline-flex items-center bg-white text-blue-600 px-10 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
             >
               {t('landing.cta.startTrial')}

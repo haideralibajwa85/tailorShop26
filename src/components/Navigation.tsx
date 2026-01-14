@@ -154,9 +154,7 @@ const Navigation = () => {
                 <Link href="/auth/login" className="text-gray-600 hover:text-blue-600 font-medium transition-colors px-4 py-2">
                   Sign In
                 </Link>
-                <Link href="/auth/register" className="bg-gradient-to-r from-blue-600 to-emerald-600 text-white px-6 py-2.5 rounded-full hover:shadow-lg transition-all transform hover:-translate-y-0.5 font-medium text-sm">
-                  Get Started
-                </Link>
+
               </div>
             )}
 
@@ -217,12 +215,7 @@ const Navigation = () => {
                   >
                     Sign In
                   </Link>
-                  <Link
-                    href="/auth/register"
-                    className="w-full text-center bg-gradient-to-r from-blue-600 to-emerald-600 text-white font-medium py-3 rounded-lg shadow-md"
-                  >
-                    Get Started
-                  </Link>
+
                 </div>
               ) : (
                 <div className="space-y-4">

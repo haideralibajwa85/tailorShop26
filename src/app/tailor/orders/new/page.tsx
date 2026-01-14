@@ -212,21 +212,32 @@ function OrderForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log('Order Submission Debug - Start');
+
         if (!selectedCustomer) {
+            console.warn('Order Submission Debug - No customer selected');
             toast.error('Please select a customer first');
+            return;
+        }
+
+        if (!tailorProfile) {
+            console.error('Order Submission Debug - Tailor profile not loaded');
+            toast.error('Internal Error: Tailor profile not loaded. Please refresh.');
             return;
         }
 
         setLoading(true);
         try {
             // 1. Create Order
-            const orderIdValue = `TS-${Math.floor(1000 + Math.random() * 9000)}`;
+            const orderIdValue = `TS-${Math.floor(10000 + Math.random() * 90000)}`;
+            console.log('Order Submission Debug - Creating order:', { orderIdValue, customerId: selectedCustomer.id });
+
             const { data: order, error: orderError } = await supabase
                 .from('orders')
                 .insert([{
                     customer_id: selectedCustomer.id,
                     tailor_id: tailorProfile.id,
-                    organization_id: tailorProfile.organization_id, // Added organization_id
+                    organization_id: tailorProfile.organization_id,
                     order_id: orderIdValue,
                     category: formData.category,
                     clothing_type: formData.clothing_type,
@@ -243,9 +254,15 @@ function OrderForm() {
                 .select()
                 .single();
 
-            if (orderError) throw orderError;
+            if (orderError) {
+                console.error('Order Submission Debug - Order insertion error:', orderError);
+                throw orderError;
+            }
+
+            console.log('Order Submission Debug - Order created successfully:', order.id);
 
             // 2. Save Measurements
+            console.log('Order Submission Debug - Saving measurements');
             const { error: measurementError } = await supabase
                 .from('order_measurements')
                 .insert([{
@@ -254,33 +271,42 @@ function OrderForm() {
                 }]);
 
             if (measurementError) {
-                console.error('Error saving measurements:', measurementError);
+                console.error('Order Submission Debug - Measurement error (non-blocking):', measurementError);
                 toast.error('Order created but measurements failed to save.');
+            } else {
+                console.log('Order Submission Debug - Measurements saved');
             }
 
             // 3. Assign Stitcher if selected
             if (formData.assigned_stitcher_id) {
+                console.log('Order Submission Debug - Assigning stitcher:', formData.assigned_stitcher_id);
                 const { error: assignError } = await supabase
                     .from('work_assignments')
                     .insert([{
                         order_id: order.id,
                         stitcher_id: formData.assigned_stitcher_id,
                         tailor_id: tailorProfile.id,
-                        status: 'pending'
+                        assigned_by: tailorProfile.id, // Add assigned_by
+                        organization_id: tailorProfile.organization_id,
+                        status: 'assigned'
                     }]);
 
                 if (assignError) {
-                    console.error('Error assigning stitcher:', assignError);
+                    console.error('Order Submission Debug - Stitcher assignment error (non-blocking):', assignError);
                     toast.error('Order created but stitcher assignment failed.');
+                } else {
+                    console.log('Order Submission Debug - Stitcher assigned');
                 }
             }
 
+            console.log('Order Submission Debug - Process complete, redirecting...');
             toast.success('Order created successfully!');
             router.push('/tailor/dashboard');
         } catch (error: any) {
-            console.error('Error creating order:', error);
+            console.error('Order Submission Debug - CRITICAL ERROR:', error);
             toast.error(error.message || 'Failed to create order');
         } finally {
+            console.log('Order Submission Debug - End (finally)');
             setLoading(false);
         }
     };
@@ -397,7 +423,7 @@ function OrderForm() {
                                 className="w-full p-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
                             >
                                 <option value="">Select a stitcher (Optional)...</option>
-                                {stitchers.map(s => (
+                                {stitchers.filter((s: any) => s.is_active).map(s => (
                                     <option key={s.id} value={s.id}>{s.full_name}</option>
                                 ))}
                             </select>

@@ -75,41 +75,62 @@ export default function TailorDashboard() {
                 const activeOrders = orders.filter((o: any) => o.status === 'pending' || o.status === 'in_stitching' || o.status === 'inStitching').slice(0, 10);
                 setRecentOrders(activeOrders);
 
-                // Fetch assignments for these orders
-                const map: Record<string, any> = {};
-                for (const order of activeOrders) {
-                    const { data: assignment } = await supabase
+                // Fetch assignments for these orders IN ONE GO
+                const orderIds = activeOrders.map(o => o.id);
+                if (orderIds.length > 0) {
+                    // Try fetching with join first, fallback if it fails
+                    const { data: assignments, error: assignError } = await supabase
                         .from('work_assignments')
                         .select('*, users!stitcher_id(full_name)')
-                        .eq('order_id', order.id)
-                        .maybeSingle();
-                    if (assignment) {
-                        map[order.id] = assignment;
+                        .in('order_id', orderIds);
+
+                    if (assignError) {
+                        console.warn('Assignment Fetch Join failed, trying fallback:', assignError.message);
+                        // Fallback: Fetch without join
+                        const { data: simpleAssignments, error: simpleError } = await supabase
+                            .from('work_assignments')
+                            .select('*')
+                            .in('order_id', orderIds);
+
+                        if (!simpleError && simpleAssignments) {
+                            const map: Record<string, any> = {};
+                            simpleAssignments.forEach(a => { map[a.order_id] = a; });
+                            setAssignmentsMap(map);
+                        }
+                    } else if (assignments) {
+                        const map: Record<string, any> = {};
+                        assignments.forEach(a => {
+                            map[a.order_id] = a;
+                        });
+                        setAssignmentsMap(map);
                     }
+                } else {
+                    setAssignmentsMap({});
                 }
-                setAssignmentsMap(map);
             }
 
             // 2. Fetch Team Members (Stitchers)
             console.log('Fetching stitchers for organization:', profile?.organization_id);
 
+            // Fetch ALL stitchers first to see if ANY exist
             let stitcherQuery = supabase
                 .from('users')
                 .select('*')
                 .eq('role', 'stitcher');
 
-            // If organization_id exists, filter by it; otherwise get all stitchers
-            if (profile?.organization_id) {
-                stitcherQuery = stitcherQuery.eq('organization_id', profile.organization_id);
-            }
-
             const { data: team, error: teamError } = await stitcherQuery;
 
             if (teamError) {
                 console.error('Error fetching stitchers:', teamError);
+            } else {
+                // If organization filtering is needed, do it locally or ensure data exists
+                const filteredTeam = profile?.organization_id
+                    ? team?.filter((u: any) => u.organization_id === profile.organization_id || !u.organization_id)
+                    : team;
+
+                console.log('Final processed stitchers list:', filteredTeam?.length);
+                setStitchers(filteredTeam || []);
             }
-            console.log('Fetched stitchers:', team);
-            setStitchers(team || []);
 
         } catch (error) {
             console.error('Error loading dashboard:', error);
@@ -120,33 +141,68 @@ export default function TailorDashboard() {
     };
 
     const handleAssignStitcher = async (orderId: string, stitcherId: string) => {
-        if (!stitcherId || !currentUser) return;
+        console.log('Assignment Debug - Start:', { orderId, stitcherId, currentUserId: currentUser?.id });
+
+        if (!currentUser) {
+            console.error('Assignment Debug - No current user profile loaded');
+            toast.error('Unable to assign: User profile not loaded');
+            return;
+        }
+
+        // Allow unassigning by passing an empty string
         try {
             const existing = assignmentsMap[orderId];
+            console.log('Assignment Debug - Existing assignment:', existing);
 
             if (existing) {
+                if (!stitcherId) {
+                    // Delete assignment if unassigned
+                    console.log('Assignment Debug - Unassigning (deleting):', existing.id);
+                    const { error } = await supabase
+                        .from('work_assignments')
+                        .delete()
+                        .eq('id', existing.id);
+                    if (error) throw error;
+                } else {
+                    // Update assignment
+                    console.log('Assignment Debug - Updating to stitcher:', stitcherId);
+                    const { error } = await supabase
+                        .from('work_assignments')
+                        .update({
+                            stitcher_id: stitcherId,
+                            organization_id: currentUser.organization_id,
+                            assigned_by: currentUser.id // Add assigned_by here
+                        })
+                        .eq('id', existing.id);
+                    if (error) throw error;
+                }
+            } else if (stitcherId) {
+                // Create new assignment
+                console.log('Assignment Debug - Creating new assignment');
+                const assignmentData: any = {
+                    order_id: orderId,
+                    stitcher_id: stitcherId,
+                    organization_id: currentUser.organization_id,
+                    assigned_by: currentUser.id, // Add assigned_by here
+                    status: 'assigned'
+                };
+
+                // Only add tailor_id if the user profile exists
+                if (currentUser?.id) {
+                    assignmentData.tailor_id = currentUser.id;
+                }
+
                 const { error } = await supabase
                     .from('work_assignments')
-                    .update({ stitcher_id: stitcherId })
-                    .eq('id', existing.id);
-                if (error) throw error;
-            } else {
-                const { error } = await supabase
-                    .from('work_assignments')
-                    .insert([{
-                        order_id: orderId,
-                        stitcher_id: stitcherId,
-                        tailor_id: currentUser.id,
-                        status: 'pending'
-                    }]);
+                    .insert([assignmentData]);
                 if (error) throw error;
             }
 
-            toast.success('Stitcher assigned successfully');
+            toast.success(stitcherId ? 'Stitcher assigned successfully' : 'Stitcher unassigned');
             loadDashboardData(); // Refresh
         } catch (error: any) {
-            console.error('Error assigning stitcher:', error);
-            toast.error('Failed to assign stitcher');
+            console.error('Assignment Debug - Error:', error);
+            toast.error('Failed to assign stitcher: ' + (error.message || 'Unknown error'));
         }
     };
 
@@ -221,6 +277,7 @@ export default function TailorDashboard() {
                                     <th className="px-6 py-4">Order ID</th>
                                     <th className="px-6 py-4">Item</th>
                                     <th className="px-6 py-4">Stitcher Assignment</th>
+                                    <th className="px-6 py-4">Delivery Date</th>
                                     <th className="px-6 py-4">Status</th>
                                 </tr>
                             </thead>
@@ -245,11 +302,16 @@ export default function TailorDashboard() {
                                                     onChange={(e) => handleAssignStitcher(order.id, e.target.value)}
                                                 >
                                                     <option value="">Unassigned</option>
-                                                    {stitchers.map(s => (
+                                                    {stitchers.filter((s: any) => s.is_active).map(s => (
                                                         <option key={s.id} value={s.id}>{s.full_name}</option>
                                                     ))}
                                                 </select>
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="text-sm font-bold text-gray-600">
+                                                {new Date(order.expected_completion_date).toLocaleDateString()}
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${order.status === 'completed' ? 'bg-green-100 text-green-700' :
@@ -262,7 +324,7 @@ export default function TailorDashboard() {
                                     </tr>
                                 )) : (
                                     <tr>
-                                        <td colSpan={4} className="px-6 py-12 text-center text-gray-400 italic">
+                                        <td colSpan={5} className="px-6 py-12 text-center text-gray-400 italic">
                                             No pending or active orders.
                                         </td>
                                     </tr>
@@ -282,7 +344,7 @@ export default function TailorDashboard() {
                     </div>
 
                     <div className="space-y-4">
-                        {stitchers.length > 0 ? stitchers.map((stitcher: any) => (
+                        {stitchers.filter((s: any) => s.is_active).length > 0 ? stitchers.filter((s: any) => s.is_active).map((stitcher: any) => (
                             <div key={stitcher.id} className="flex items-center justify-between p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold">
@@ -294,25 +356,19 @@ export default function TailorDashboard() {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => handleEditStitcher(stitcher)}
-                                        className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
-                                    >
-                                        <FaPlus className="rotate-45" title="Edit" />
-                                    </button>
-                                    <span className={`block text-[10px] font-black uppercase tracking-widest ${stitcher.is_active ? 'text-green-600' : 'text-gray-400'}`}>
-                                        {stitcher.is_active ? 'Active' : 'Offline'}
+                                    <span className="block text-[10px] font-black uppercase tracking-widest text-green-600">
+                                        Active
                                     </span>
                                 </div>
                             </div>
                         )) : (
                             <div className="text-center py-8">
-                                <p className="text-sm text-gray-500 mb-4">No team members registered yet.</p>
+                                <p className="text-sm text-gray-500 mb-4">No active team members currently.</p>
                                 <Link
                                     href="/tailor/stitchers"
                                     className="text-sm font-bold text-indigo-600 hover:text-indigo-800"
                                 >
-                                    + Register your first stitcher
+                                    View all team members
                                 </Link>
                             </div>
                         )}

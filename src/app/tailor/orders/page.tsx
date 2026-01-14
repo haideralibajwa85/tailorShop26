@@ -75,26 +75,42 @@ export default function TailorOrdersPage() {
 
             if (data) {
                 const chargesMap: Record<string, any[]> = {};
-                const assignmentsMap: Record<string, any> = {};
 
+                // 1. Fetch all charges for these orders
                 for (const order of data) {
-                    // Fetch charges
                     const charges = await orderAPI.getExtraCharges(order.id);
                     chargesMap[order.id] = charges;
-
-                    // Fetch assignment
-                    const { data: assignment } = await supabase
-                        .from('work_assignments')
-                        .select('*, users!stitcher_id(full_name)')
-                        .eq('order_id', order.id)
-                        .maybeSingle(); // Use maybeSingle to avoid 406 error if none exists
-
-                    if (assignment) {
-                        assignmentsMap[order.id] = assignment;
-                    }
                 }
                 setExtraCharges(chargesMap);
-                setAssignments(assignmentsMap);
+
+                // 2. Fetch all assignments IN ONE GO
+                const orderIds = data.map(o => o.id);
+                if (orderIds.length > 0) {
+                    const { data: assignmentsData, error: assignError } = await supabase
+                        .from('work_assignments')
+                        .select('*, users!stitcher_id(full_name)')
+                        .in('order_id', orderIds);
+
+                    if (assignError) {
+                        console.warn('Orders Page: Assignment Join failed, fallback to simple fetch:', assignError.message);
+                        const { data: simpleData, error: simpleError } = await supabase
+                            .from('work_assignments')
+                            .select('*')
+                            .in('order_id', orderIds);
+
+                        if (!simpleError && simpleData) {
+                            const assignmentsMap: Record<string, any> = {};
+                            simpleData.forEach(a => { assignmentsMap[a.order_id] = a; });
+                            setAssignments(assignmentsMap);
+                        }
+                    } else if (assignmentsData) {
+                        const assignmentsMap: Record<string, any> = {};
+                        assignmentsData.forEach(a => {
+                            assignmentsMap[a.order_id] = a;
+                        });
+                        setAssignments(assignmentsMap);
+                    }
+                }
             }
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -104,36 +120,55 @@ export default function TailorOrdersPage() {
     };
 
     const handleAssignStitcher = async (orderId: string, stitcherId: string) => {
-        if (!stitcherId) return;
+        console.log('Orders List Debug - Assignment Start:', { orderId, stitcherId });
         try {
             // Check if exists
             const existing = assignments[orderId];
+            console.log('Orders List Debug - Existing assignment:', existing);
 
             if (existing) {
-                // Update
-                const { error } = await supabase
-                    .from('work_assignments')
-                    .update({ stitcher_id: stitcherId })
-                    .eq('id', existing.id);
-                if (error) throw error;
-            } else {
+                if (!stitcherId) {
+                    // Delete assignment if unassigned
+                    console.log('Orders List Debug - Unassigning (deleting):', existing.id);
+                    const { error } = await supabase
+                        .from('work_assignments')
+                        .delete()
+                        .eq('id', existing.id);
+                    if (error) throw error;
+                } else {
+                    // Update
+                    console.log('Orders List Debug - Updating to:', stitcherId);
+                    const { error } = await supabase
+                        .from('work_assignments')
+                        .update({
+                            stitcher_id: stitcherId,
+                            organization_id: tailorProfile.organization_id,
+                            assigned_by: tailorProfile.id // Add assigned_by
+                        })
+                        .eq('id', existing.id);
+                    if (error) throw error;
+                }
+            } else if (stitcherId) {
                 // Insert
+                console.log('Orders List Debug - Creating new assignment');
                 const { error } = await supabase
                     .from('work_assignments')
                     .insert([{
                         order_id: orderId,
                         stitcher_id: stitcherId,
                         tailor_id: tailorProfile.id,
-                        status: 'pending'
+                        assigned_by: tailorProfile.id, // Add assigned_by
+                        organization_id: tailorProfile.organization_id,
+                        status: 'assigned'
                     }]);
                 if (error) throw error;
             }
 
-            toast.success('Stitcher assigned successfully');
+            toast.success(stitcherId ? 'Stitcher assigned successfully' : 'Stitcher unassigned');
             fetchOrders(tailorProfile.id); // Refresh to get names and IDs
         } catch (error: any) {
-            console.error('Error assigning stitcher:', error);
-            toast.error('Failed to assign stitcher');
+            console.error('Orders List Debug - Error:', error);
+            toast.error('Failed to assign stitcher: ' + (error.message || 'Unknown error'));
         }
     };
 
@@ -227,7 +262,7 @@ export default function TailorOrdersPage() {
                                         onChange={(e) => handleAssignStitcher(order.id, e.target.value)}
                                     >
                                         <option value="">Unassigned</option>
-                                        {stitchers.map((s: any) => (
+                                        {stitchers.filter((s: any) => s.is_active).map((s: any) => (
                                             <option key={s.id} value={s.id}>{s.full_name}</option>
                                         ))}
                                     </select>
