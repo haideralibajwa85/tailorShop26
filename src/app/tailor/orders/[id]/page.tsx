@@ -89,7 +89,7 @@ export default function TailorOrderDetailPage() {
         setEditForm((prev: any) => ({ ...prev, [name]: value }));
     };
 
-    const handleMeasurementChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleMeasurementChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setEditMeasurements((prev: any) => ({ ...prev, [name]: value }));
     };
