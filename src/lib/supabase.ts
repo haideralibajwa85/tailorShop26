@@ -15,8 +15,17 @@ export function createSupabaseClient() {
     if (!supabaseUrl) missing.push('NEXT_PUBLIC_SUPABASE_URL');
     if (!supabaseAnonKey) missing.push('NEXT_PUBLIC_SUPABASE_ANON_KEY');
 
-    console.warn(`Supabase Configuration Error: The following variables are missing from your environment: ${missing.join(', ')}. 
-Please check your .env.local file. See docs/FIX_SUPABASE_CONFIG.md for more info.`);
+    console.error('--- SUPABASE CONFIGURATION ERROR ---');
+    console.error('Missing variables:', missing.join(', '));
+    console.error('Current Environment Context:', {
+      hasUrl: !!supabaseUrl,
+      hasKey: !!supabaseAnonKey,
+      urlPrefix: supabaseUrl ? supabaseUrl.substring(0, 10) + '...' : 'none',
+      isBrowser: typeof window !== 'undefined',
+      location: typeof window !== 'undefined' ? window.location.href : 'SSR'
+    });
+    console.error('Action Required: Go to Vercel -> Settings -> Environment Variables and ensure these are set and RE-DEPLOY.');
+    console.error('------------------------------------');
     return null;
   }
 
