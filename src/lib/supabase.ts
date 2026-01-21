@@ -113,6 +113,20 @@ export interface OrderMeasurement {
   seat?: string;
   knee?: string;
   ankle?: string;
+  armhole?: string;
+  collar_size?: string;
+  front_patti_length?: string;
+  side_chak_length?: string;
+  daman_width?: string;
+  fit_type?: string;
+  collar_style?: string;
+  sleeve_style?: string;
+  daman_style?: string;
+  pocket_kameez?: string;
+  thigh?: string;
+  shalwar_type?: string;
+  waist_style?: string;
+  pocket_type?: string;
   measurement_notes?: string;
   created_at: string;
 }

@@ -2,14 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../../lib/supabase';
-import { FaRulerCombined, FaUser, FaHistory, FaRedo, FaSearch, FaUserTie, FaSave, FaArrowLeft } from 'react-icons/fa';
+import { FaRulerCombined, FaUser, FaHistory, FaRedo, FaSearch, FaUserTie, FaSave, FaArrowLeft, FaTshirt } from 'react-icons/fa';
+import { GiArmoredPants } from 'react-icons/gi';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 import { Suspense } from 'react';
 
 function OrderForm() {
+    const { t } = useTranslation();
     const router = useRouter();
     const searchParams = useSearchParams();
     const customerIdFromQuery = searchParams.get('customerId');
@@ -52,6 +55,20 @@ function OrderForm() {
         seat: '',
         knee: '',
         ankle: '',
+        armhole: '',
+        collar_size: '',
+        front_patti_length: '',
+        side_chak_length: '',
+        daman_width: '',
+        thigh: '',
+        fit_type: '',
+        collar_style: '',
+        sleeve_style: '',
+        daman_style: '',
+        pocket_kameez: '',
+        shalwar_type: '',
+        waist_style: '',
+        pocket_type: '',
         measurement_notes: '',
     });
 
@@ -181,6 +198,20 @@ function OrderForm() {
                         seat: measure.seat || '',
                         knee: measure.knee || '',
                         ankle: measure.ankle || '',
+                        armhole: measure.armhole || '',
+                        collar_size: measure.collar_size || '',
+                        front_patti_length: measure.front_patti_length || '',
+                        side_chak_length: measure.side_chak_length || '',
+                        daman_width: measure.daman_width || '',
+                        thigh: measure.thigh || '',
+                        fit_type: measure.fit_type || '',
+                        collar_style: measure.collar_style || '',
+                        sleeve_style: measure.sleeve_style || '',
+                        daman_style: measure.daman_style || '',
+                        pocket_kameez: measure.pocket_kameez || '',
+                        shalwar_type: measure.shalwar_type || '',
+                        waist_style: measure.waist_style || '',
+                        pocket_type: measure.pocket_type || '',
                         measurement_notes: measure.measurement_notes || '',
                     };
                     console.log('Setting measurements to:', newMeasurements);
@@ -205,7 +236,7 @@ function OrderForm() {
         }
     };
 
-    const handleMeasurementChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleMeasurementChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setMeasurements(prev => ({ ...prev, [name]: value }));
     };
@@ -513,29 +544,196 @@ function OrderForm() {
                                 </div>
                             </div>
 
-                            <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-6">
-                                <h3 className="text-xl font-bold text-gray-800 border-b pb-4">Measurements (Inches)</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                                    {Object.entries(measurements).map(([key, value]) => {
-                                        if (key === 'measurement_notes') return null; // Handle notes separately
-                                        return (
-                                            <div key={key}>
-                                                <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider">{key.replace('_', ' ')}</label>
+                            <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 space-y-8">
+                                <h3 className="text-xl font-bold text-gray-800 border-b pb-4 flex items-center gap-2">
+                                    <FaRulerCombined className="text-blue-600" /> {t('order.measurements')} (Inches)
+                                </h3>
+
+                                {/* Kameez Section */}
+                                <div className="space-y-6">
+                                    <h4 className="text-lg font-bold text-gray-700 flex items-center gap-2 bg-blue-50 p-3 rounded-xl">
+                                        <FaTshirt className="text-blue-500" /> Kameez (Shirt) Measurements
+                                    </h4>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                        {[
+                                            { key: 'shirt_length', label: 'order.shirtLength' },
+                                            { key: 'shoulder', label: 'order.shoulder' },
+                                            { key: 'chest', label: 'order.chest' },
+                                            { key: 'waist', label: 'order.waist' },
+                                            { key: 'hip', label: 'order.hip' },
+                                            { key: 'armhole', label: 'order.armhole' },
+                                            { key: 'sleeve_length', label: 'order.sleeveLength' },
+                                            { key: 'bicep', label: 'order.bicep' },
+                                            { key: 'neck', label: 'order.neck' },
+                                            { key: 'cuff', label: 'order.cuff' },
+                                            { key: 'collar_size', label: 'order.collarSize' },
+                                            { key: 'front_patti_length', label: 'order.frontPattiLength' },
+                                            { key: 'side_chak_length', label: 'order.sideChakLength' },
+                                            { key: 'daman_width', label: 'order.damanWidth' },
+                                        ].map((field) => (
+                                            <div key={field.key}>
+                                                <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider">{t(field.label)}</label>
                                                 <input
                                                     type="text"
-                                                    name={key}
-                                                    value={value}
+                                                    name={field.key}
+                                                    value={(measurements as any)[field.key]}
                                                     onChange={handleMeasurementChange}
                                                     placeholder="0.0"
                                                     className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 font-mono text-center"
                                                 />
                                             </div>
-                                        );
-                                    })}
+                                        ))}
+                                    </div>
+
+                                    {/* Kameez Styles */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-dashed border-gray-200">
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.fitType')}</label>
+                                            <div className="flex flex-wrap gap-4">
+                                                {['Slim Fit | سلم فٹ', 'Regular Fit | نارمل فٹ', 'Loose Fit | ڈھیلا'].map((opt) => (
+                                                    <label key={opt} className="flex items-center gap-2 cursor-pointer">
+                                                        <input
+                                                            type="radio"
+                                                            name="fit_type"
+                                                            value={opt}
+                                                            checked={measurements.fit_type === opt}
+                                                            onChange={handleMeasurementChange}
+                                                            className="w-4 h-4 text-blue-600"
+                                                        />
+                                                        <span className="text-sm text-gray-600">{opt}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.pocketKameez')}</label>
+                                            <div className="flex flex-wrap gap-4">
+                                                {['No Pocket | بغیر جیب', 'Single | ایک جیب', 'Double | دو جیب'].map((opt) => (
+                                                    <label key={opt} className="flex items-center gap-2 cursor-pointer">
+                                                        <input
+                                                            type="radio"
+                                                            name="pocket_kameez"
+                                                            value={opt}
+                                                            checked={measurements.pocket_kameez === opt}
+                                                            onChange={handleMeasurementChange}
+                                                            className="w-4 h-4 text-blue-600"
+                                                        />
+                                                        <span className="text-sm text-gray-600">{opt}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.collarStyle')}</label>
+                                            <select
+                                                name="collar_style"
+                                                value={measurements.collar_style}
+                                                onChange={handleMeasurementChange}
+                                                className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-sm"
+                                            >
+                                                <option value="">Select Collar Style...</option>
+                                                {['Ban Collar | بن کالر', 'Simple Collar | سادہ کالر', 'Shirt Collar | شرٹ کالر'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.sleeveStyle')}</label>
+                                            <select
+                                                name="sleeve_style"
+                                                value={measurements.sleeve_style}
+                                                onChange={handleMeasurementChange}
+                                                className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-sm"
+                                            >
+                                                <option value="">Select Sleeve Style...</option>
+                                                {['Straight | سیدھی', 'Cuff | کف والی'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+                                        <div className="md:col-span-2">
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.damanStyle')}</label>
+                                            <select
+                                                name="daman_style"
+                                                value={measurements.daman_style}
+                                                onChange={handleMeasurementChange}
+                                                className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-sm"
+                                            >
+                                                <option value="">Select Daman Style...</option>
+                                                {['Straight | سیدھا', 'Round | گول', 'Half Round | آدھا گول', 'Square | چوکور', 'Cut Corner | کٹ کارنر', 'Chak | چاک والا'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                {/* Shalwar Section */}
+                                <div className="space-y-6 pt-8 border-t border-gray-100">
+                                    <h4 className="text-lg font-bold text-gray-700 flex items-center gap-2 bg-emerald-50 p-3 rounded-xl">
+                                        <GiArmoredPants className="text-emerald-500" /> Shalwar Measurements
+                                    </h4>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                        {[
+                                            { key: 'trouser_length', label: 'order.shalwarLength' },
+                                            { key: 'waist', label: 'order.waist' },
+                                            { key: 'hip', label: 'order.hip' },
+                                            { key: 'thigh', label: 'order.thigh' },
+                                            { key: 'knee', label: 'order.knee' },
+                                            { key: 'ankle', label: 'order.bottomPancha' },
+                                        ].map((field) => (
+                                            <div key={field.key}>
+                                                <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider">{t(field.label)}</label>
+                                                <input
+                                                    type="text"
+                                                    name={field.key}
+                                                    value={(measurements as any)[field.key]}
+                                                    onChange={handleMeasurementChange}
+                                                    placeholder="0.0"
+                                                    className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 font-mono text-center"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Shalwar Styles */}
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-dashed border-gray-200">
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.shalwarType')}</label>
+                                            <select
+                                                name="shalwar_type"
+                                                value={measurements.shalwar_type}
+                                                onChange={handleMeasurementChange}
+                                                className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-sm"
+                                            >
+                                                <option value="">Select Type...</option>
+                                                {['Simple | سادہ', 'Wide | کھلی شلوار', 'Patiala | پٹیالہ', 'Trouser Style | ٹراؤزر اسٹائل'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.waistStyle')}</label>
+                                            <select
+                                                name="waist_style"
+                                                value={measurements.waist_style}
+                                                onChange={handleMeasurementChange}
+                                                className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-sm"
+                                            >
+                                                <option value="">Select Style...</option>
+                                                {['Naara | ناڑا', 'Elastic | الاسٹک', 'Both | دونوں'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-bold text-gray-700 mb-2">{t('order.pocketType')}</label>
+                                            <select
+                                                name="pocket_type"
+                                                value={measurements.pocket_type}
+                                                onChange={handleMeasurementChange}
+                                                className="w-full p-2.5 border border-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-sm"
+                                            >
+                                                <option value="">Select Pocket Type...</option>
+                                                {['No Pocket | بغیر جیب', 'One Side | ایک طرف', 'Both Sides | دونوں طرف', 'Back Pocket | پیچھے جیب', 'Zip Pocket | زِپ والی'].map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {/* Measurement Notes */}
-                                <div>
-                                    <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider">Measurement Notes</label>
+                                <div className="pt-6 border-t border-gray-100">
+                                    <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wider">{t('order.customNotes')}</label>
                                     <textarea
                                         name="measurement_notes"
                                         value={measurements.measurement_notes}

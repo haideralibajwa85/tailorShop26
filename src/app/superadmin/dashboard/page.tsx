@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaBuilding, FaUsers, FaChartLine, FaPlus, FaTachometerAlt } from 'react-icons/fa';
+import { FaPlus, FaBuilding, FaUsers, FaChartLine, FaEnvelope, FaPhone, FaMapMarkerAlt, FaUserTie, FaTachometerAlt } from 'react-icons/fa';
 import { organizationService } from '../../../lib/organizationService';
 import { supabase } from '../../../lib/supabase';
 import { toast } from 'react-hot-toast';
@@ -96,13 +96,20 @@ export default function SuperadminDashboard() {
                         </h1>
                         <p className="text-gray-600 mt-2">Manage all tailor shop organizations across the platform</p>
                     </div>
-                    <button
-                        onClick={() => router.push('/superadmin/organizations/new')}
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all flex items-center space-x-2 shadow-lg"
-                    >
-                        <FaPlus />
-                        <span>New Organization</span>
-                    </button>
+                    <div className="flex gap-4">
+                        <button
+                            onClick={() => router.push('/superadmin/tailors/new')}
+                            className="bg-white text-gray-700 px-6 py-3 rounded-xl font-bold border border-gray-200 hover:bg-gray-50 transition-all shadow-sm flex items-center gap-2"
+                        >
+                            <FaUserTie className="text-emerald-500" /> Register Tailor
+                        </button>
+                        <button
+                            onClick={() => router.push('/superadmin/organizations/new')}
+                            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                            + New Organization
+                        </button>
+                    </div>
                 </div>
 
                 {/* Stats Grid */}

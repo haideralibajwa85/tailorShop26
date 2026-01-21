@@ -6,8 +6,12 @@ import { supabase } from '../../../../lib/supabase';
 import { FaArrowLeft, FaRulerCombined, FaInfoCircle, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
+import { FaTshirt, FaUserTie } from 'react-icons/fa';
+import { GiArmoredPants } from 'react-icons/gi';
 
 export default function TailorOrderDetailPage() {
+    const { t } = useTranslation();
     const params = useParams();
     const router = useRouter();
     const orderId = params.id as string;
@@ -301,50 +305,222 @@ export default function TailorOrderDetailPage() {
                     </div>
 
                     {/* Right Column: Measurements */}
-                    <div>
+                    <div className="space-y-8">
                         <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                            <FaRulerCombined className="mr-2 text-blue-500" /> Measurements (Inches)
+                            <FaRulerCombined className="mr-2 text-blue-500" /> {t('order.measurements')} (Inches)
                         </h3>
                         {measurements || isEditing ? (
                             <>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {(isEditing ? Object.keys(editMeasurements) : Object.keys(measurements)).map((key) => {
-                                        if (['id', 'order_id', 'created_at', 'updated_at', 'measurement_notes'].includes(key)) return null;
+                                {/* Kameez Section */}
+                                <div className="space-y-6">
+                                    <h4 className="text-md font-bold text-blue-600 bg-blue-50 p-3 rounded-xl flex items-center gap-2">
+                                        <FaTshirt /> {t('order.kameez')}
+                                    </h4>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                        {[
+                                            { key: 'shirt_length', label: t('order.shirtLength') },
+                                            { key: 'shoulder', label: t('order.shoulder') },
+                                            { key: 'chest', label: t('order.chest') },
+                                            { key: 'waist', label: t('order.waist') },
+                                            { key: 'hip', label: t('order.hip') },
+                                            { key: 'armhole', label: t('order.armhole') },
+                                            { key: 'sleeve_length', label: t('order.sleeveLength') },
+                                            { key: 'bicep', label: t('order.bicep') },
+                                            { key: 'neck', label: t('order.neck') },
+                                            { key: 'cuff', label: t('order.cuff') },
+                                            { key: 'collar_size', label: t('order.collarSize') },
+                                            { key: 'front_patti_length', label: t('order.frontPattiLength') },
+                                            { key: 'side_chak_length', label: t('order.sideChakLength') },
+                                            { key: 'daman_width', label: t('order.damanWidth') }
+                                        ].map((field) => {
+                                            const val = isEditing ? editMeasurements[field.key] : measurements?.[field.key];
+                                            return (
+                                                <div key={field.key} className={`p-3 rounded-lg text-center ${isEditing ? 'bg-white border-2 border-blue-50 shadow-sm' : 'bg-gray-50'}`}>
+                                                    <span className="block text-[10px] uppercase text-gray-400 mb-1 font-bold">{field.label}</span>
+                                                    {isEditing ? (
+                                                        <div className="flex items-center justify-center gap-1">
+                                                            <input
+                                                                type="text"
+                                                                name={field.key}
+                                                                value={val || ''}
+                                                                onChange={handleMeasurementChange}
+                                                                className="w-16 text-center font-bold text-blue-600 border-b-2 border-blue-100 focus:border-blue-500 outline-none bg-transparent"
+                                                            />
+                                                            <span className="text-gray-300 font-bold">"</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="block font-bold text-gray-800">{val ? `${val}"` : '-'}</span>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
 
-                                        const val = isEditing ? editMeasurements[key] : measurements?.[key];
-
-                                        return (
-                                            <div key={key} className={`p-3 rounded-lg text-center ${isEditing ? 'bg-white border border-gray-200' : 'bg-gray-50'}`}>
-                                                <span className="block text-xs uppercase text-gray-500 mb-1">{key.replace('_', ' ')}</span>
+                                    {/* Kameez Styles */}
+                                    <div className="grid grid-cols-1 gap-6 pt-6 border-t border-dashed border-gray-200">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                            {/* Fit Type */}
+                                            <div>
+                                                <label className="block text-xs uppercase text-gray-500 mb-3 font-bold">{t('order.fitType')}</label>
                                                 {isEditing ? (
-                                                    <input
-                                                        type="text"
-                                                        name={key}
-                                                        value={val || ''}
-                                                        onChange={handleMeasurementChange}
-                                                        className="w-full text-center font-bold text-gray-800 border-b border-gray-300 focus:border-blue-500 outline-none bg-transparent"
-                                                    />
+                                                    <div className="space-y-2">
+                                                        {['Slim Fit | سلم فٹ', 'Regular Fit | نارمل فٹ', 'Loose Fit | ڈھیلا'].map((opt) => (
+                                                            <label key={opt} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer border border-transparent hover:border-blue-200">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="fit_type"
+                                                                    value={opt}
+                                                                    checked={editMeasurements.fit_type === opt}
+                                                                    onChange={handleMeasurementChange}
+                                                                    className="w-4 h-4 text-blue-600"
+                                                                />
+                                                                <span className="text-sm font-medium text-gray-700">{opt}</span>
+                                                            </label>
+                                                        ))}
+                                                    </div>
                                                 ) : (
-                                                    <span className="block font-bold text-gray-800">{val || '-'}"</span>
+                                                    <div className="p-3 bg-gray-50 rounded-lg text-sm font-bold text-gray-800 border border-gray-100 italic">
+                                                        {measurements?.fit_type || '-'}
+                                                    </div>
                                                 )}
                                             </div>
-                                        );
-                                    })}
+                                            {/* Pocket Kameez */}
+                                            <div>
+                                                <label className="block text-xs uppercase text-gray-500 mb-3 font-bold">{t('order.pocketKameez')}</label>
+                                                {isEditing ? (
+                                                    <div className="space-y-2">
+                                                        {['No Pocket | بغیر جیب', 'Single | ایک جیب', 'Double | دو جیب'].map((opt) => (
+                                                            <label key={opt} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors cursor-pointer border border-transparent hover:border-blue-200">
+                                                                <input
+                                                                    type="radio"
+                                                                    name="pocket_kameez"
+                                                                    value={opt}
+                                                                    checked={editMeasurements.pocket_kameez === opt}
+                                                                    onChange={handleMeasurementChange}
+                                                                    className="w-4 h-4 text-blue-600"
+                                                                />
+                                                                <span className="text-sm font-medium text-gray-700">{opt}</span>
+                                                            </label>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <div className="p-3 bg-gray-50 rounded-lg text-sm font-bold text-gray-800 border border-gray-100 italic">
+                                                        {measurements?.pocket_kameez || '-'}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Style Dropdowns */}
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                            {[
+                                                { key: 'collar_style', label: t('order.collarStyle'), options: ['Ban Collar | بن کالر', 'Simple Collar | سادہ کالر', 'Shirt Collar | شرٹ کالر'] },
+                                                { key: 'sleeve_style', label: t('order.sleeveStyle'), options: ['Straight | سیدھی', 'Cuff | کف والی'] },
+                                                { key: 'daman_style', label: t('order.damanStyle'), options: ['Straight | سیدھا', 'Round | گول', 'Half Round | آدھا گول', 'Square | چوکور', 'Cut Corner | کٹ کارنر', 'Chak | چاک والا'] }
+                                            ].map((field) => (
+                                                <div key={field.key}>
+                                                    <label className="block text-xs uppercase text-gray-500 mb-2 font-bold">{field.label}</label>
+                                                    {isEditing ? (
+                                                        <select
+                                                            name={field.key}
+                                                            value={editMeasurements[field.key] || ''}
+                                                            onChange={handleMeasurementChange}
+                                                            className="w-full p-2.5 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
+                                                        >
+                                                            <option value="">Select style...</option>
+                                                            {field.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                                        </select>
+                                                    ) : (
+                                                        <div className="p-2.5 bg-gray-50 rounded-lg text-sm font-medium text-gray-900 border border-gray-100">
+                                                            {measurements?.[field.key] || '-'}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="mt-6">
-                                    <span className="block text-xs uppercase text-gray-500 mb-1 font-bold">Measurement Notes</span>
+
+                                {/* Shalwar Section */}
+                                <div className="space-y-6 pt-8 border-t border-gray-100">
+                                    <h4 className="text-md font-bold text-emerald-600 bg-emerald-50 p-3 rounded-xl flex items-center gap-2">
+                                        <GiArmoredPants /> {t('order.shalwar')}
+                                    </h4>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                        {[
+                                            { key: 'trouser_length', label: t('order.shalwarLength') },
+                                            { key: 'waist', label: t('order.waist') },
+                                            { key: 'hip', label: t('order.hip') },
+                                            { key: 'thigh', label: t('order.thigh') },
+                                            { key: 'knee', label: t('order.knee') },
+                                            { key: 'ankle', label: t('order.bottomPancha') }
+                                        ].map((field) => {
+                                            const val = isEditing ? editMeasurements[field.key] : measurements?.[field.key];
+                                            return (
+                                                <div key={field.key} className={`p-3 rounded-lg text-center ${isEditing ? 'bg-white border-2 border-emerald-50 shadow-sm' : 'bg-gray-50'}`}>
+                                                    <span className="block text-[10px] uppercase text-gray-400 mb-1 font-bold">{field.label}</span>
+                                                    {isEditing ? (
+                                                        <div className="flex items-center justify-center gap-1">
+                                                            <input
+                                                                type="text"
+                                                                name={field.key}
+                                                                value={val || ''}
+                                                                onChange={handleMeasurementChange}
+                                                                className="w-16 text-center font-bold text-emerald-600 border-b-2 border-emerald-100 focus:border-emerald-500 outline-none bg-transparent"
+                                                            />
+                                                            <span className="text-gray-300 font-bold">"</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="block font-bold text-gray-800">{val ? `${val}"` : '-'}</span>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {/* Shalwar Styles (Dropdowns) */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-dashed border-gray-200">
+                                        {[
+                                            { key: 'shalwar_type', label: t('order.shalwarType'), options: ['Simple | سادہ', 'Wide | کھلی شلوار', 'Patiala | پٹیالہ', 'Trouser Style | ٹراؤزر اسٹائل'] },
+                                            { key: 'waist_style', label: t('order.waistStyle'), options: ['Naara | ناڑا', 'Elastic | الاسٹک', 'Both | دونوں'] },
+                                            { key: 'pocket_type', label: t('order.pocketType'), options: ['No Pocket | بغیر جیب', 'One Side | ایک طرف', 'Both Sides | دونوں طرف', 'Back Pocket | پیچھے جیب', 'Zip Pocket | زِپ والی'] }
+                                        ].map((field) => (
+                                            <div key={field.key}>
+                                                <label className="block text-xs uppercase text-gray-500 mb-2 font-bold">{field.label}</label>
+                                                {isEditing ? (
+                                                    <select
+                                                        name={field.key}
+                                                        value={editMeasurements[field.key] || ''}
+                                                        onChange={handleMeasurementChange}
+                                                        className="w-full p-2.5 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-sm"
+                                                    >
+                                                        <option value="">Select style...</option>
+                                                        {field.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                                    </select>
+                                                ) : (
+                                                    <div className="p-2.5 bg-gray-50 rounded-lg text-sm font-medium text-gray-900 border border-gray-100">
+                                                        {measurements?.[field.key] || '-'}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="mt-8 border-t border-gray-100 pt-6">
+                                    <label className="block text-xs uppercase text-gray-500 mb-2 font-bold">Measurement Notes</label>
                                     {isEditing ? (
                                         <textarea
                                             name="measurement_notes"
                                             value={editMeasurements.measurement_notes || ''}
                                             onChange={(e) => setEditMeasurements((prev: any) => ({ ...prev, measurement_notes: e.target.value }))}
-                                            className="w-full p-3 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                                            className="w-full p-4 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
                                             rows={3}
                                             placeholder="Enter measurement notes..."
                                         />
                                     ) : (
-                                        <div className="p-3 bg-gray-50 rounded-lg text-sm text-gray-700 min-h-[3rem] border border-gray-100">
-                                            {measurements?.measurement_notes ? measurements.measurement_notes : <span className="text-gray-400 italic">No notes</span>}
+                                        <div className="p-4 bg-gray-50 rounded-xl text-sm text-gray-700 min-h-[4rem] border border-gray-100 italic">
+                                            {measurements?.measurement_notes ? measurements.measurement_notes : <span className="text-gray-400">No notes provided</span>}
                                         </div>
                                     )}
                                 </div>
